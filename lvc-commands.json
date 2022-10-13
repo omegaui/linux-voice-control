@@ -1,0 +1,8 @@
+{
+  "open firefox": "firefox",
+  "open editor": "gedit",
+  "lock the screen": "xdg-screensaver lock",
+  "open whatsapp": "firefox https://web.whatsapp.com",
+  "open instagram": "firefox https://instagram.com",
+  "write an email": "firefox https://mail.google.com/mail/u/0/#inbox"
+}

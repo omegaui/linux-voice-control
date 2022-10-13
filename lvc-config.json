@@ -1,0 +1,7 @@
+{
+  "name": "alex",
+  "record-duration": 3,
+  "channels": 2,
+  "rate": 44100,
+  "chunk-size": 1024
+}
