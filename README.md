@@ -57,7 +57,7 @@ Just hit `linux-voice-control` in the terminal.
 
 **Life Saver Tip: Add `linux-voice-control` to your startup scripts** 
 
-**Future Ideas**: Adding Dynamic Voice Control like _hey alex ... call spiderman_ (you already know things like that) and most important things [discussions]()
+**Future Ideas**: Adding Dynamic Voice Control like _hey alex ... call spiderman_ (you already know things like that) and most important things [discussions](https://github.com/omegaui/linux-voice-control/discussions)
 
 # ![](https://img.icons8.com/fluency/32/000000/sourcetree.png) Build from source
 
