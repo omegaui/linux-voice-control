@@ -27,7 +27,8 @@ def launch_if_any(text):
 
 
 def is_text_prediction_applicable(text, predicted_text):
-    return text.startswith(predicted_text)
+    # to be implemented
+    return True
 
 
 def show_commands():
