@@ -12,7 +12,7 @@ Lets quick finish the setup and tell you how
 ```shell
 git clone https://github.com/omegaui/linux-voice-control
 cd linux-voice-control
-./insall.sh
+./install.sh
 ```
 
 The `install.sh` script will set up your installation of linux-voice-control by installing some dependencies with pip.
