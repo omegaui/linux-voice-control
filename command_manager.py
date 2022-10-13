@@ -2,6 +2,7 @@ import json
 import os.path
 import threading
 from thefuzz import process
+from thefuzz import fuzz
 
 commands = dict()
 choices = []
@@ -27,7 +28,10 @@ def launch_if_any(text):
 
 
 def is_text_prediction_applicable(text, predicted_text):
-    # to be implemented
+    if ' ' in predicted_text:
+        ratio = fuzz.token_sort_ratio(text, predicted_text)
+        print("tokenizer ratio:", ratio)
+        return ratio > 60
     return True
 
 
