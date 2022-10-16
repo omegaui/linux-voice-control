@@ -22,7 +22,7 @@ That's how the first two lines of `lvc-config.json` look initially ...
 ```
 {
   "name": "alex", # name of your control system
-  "record-duration": 3, # duration in which you will speak your command ... simulatneously keeps on listening for 3s
+  "record-duration": 3, # duration in which you will speak your command ... simultaneously keeps on listening for every 3s
 ...
 ```
 
