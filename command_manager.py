@@ -9,6 +9,7 @@ import os.path
 import threading
 from thefuzz import process
 from thefuzz import fuzz
+from termcolor import cprint
 
 # stores commands from the lvc-commands.json file
 commands = dict()
@@ -40,7 +41,10 @@ def launch_if_any(text):
 
     if probability and is_text_prediction_applicable(text, probability[0]):
         command = commands[probability[0]]
+        cprint(f'>>> executing: {command}', "green", attrs=["bold"])
         threading.Thread(target=lambda: os.system(command)).start()
+    else:
+        cprint(">>> Unrecognized command", "red", attrs=["bold"])
 
 
 def is_text_prediction_applicable(text, predicted_text):

@@ -9,6 +9,7 @@ import wave
 import click
 import pyaudio
 import whisper
+from termcolor import cprint
 
 import command_manager
 import config_manager
@@ -46,17 +47,18 @@ def main(model='base'):
                     input=True,
                     frames_per_buffer=CHUNK)
 
-    print("🐧 loading commands file ...")
+    cprint("🐧 loading commands file ...", "blue")
     # initializing command management ...
     command_manager.init()
 
-    print("🚀 voice control ready ... listening every", RECORD_SECONDS, "seconds")
-    print(config_manager.config['name'], "waiting for order ...")
+    cprint(f'🚀 voice control ready ... listening every {RECORD_SECONDS} seconds', "blue")
+    name = config_manager.config['name']
+    cprint(f'{name} waiting for order ...', "cyan")
 
     # And here it begins
     while True:
         frames = []
-        print("listening ...")
+        cprint("listening ...", "blue", attrs=["bold"])
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = stream.read(CHUNK)
             frames.append(data)  # stacking every audio frame into the list
@@ -76,7 +78,7 @@ def main(model='base'):
         # fp32 by default.
         result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False)
 
-        print("analyzing results ...")
+        cprint("analyzing results ...", "magenta", attrs=["bold"])
         # analyzing results ...
         analyze_text(result["text"].lower().strip())
 
@@ -86,7 +88,7 @@ def analyze_text(text):
     if text == '':
         return  # no speech data available returning without performing any operation
 
-    print("You:", text)
+    cprint(f'You: {text}', "blue", attrs=["bold"])
 
     if text[len(text) - 1] in " .!?":
         text = text[0:len(text) - 1]  # removing any punctuation from the transcribed text
