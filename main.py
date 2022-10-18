@@ -3,7 +3,6 @@
 # author: @omegaui
 # github: https://github.com/omegaui/linux-voice-control
 # license: GNU GPL v3
-
 import wave
 
 import click
@@ -52,6 +51,7 @@ def main(model='base'):
     command_manager.init()
 
     cprint(f'🚀 voice control ready ... listening every {RECORD_SECONDS} seconds', "blue")
+
     name = config_manager.config['name']
     cprint(f'{name} waiting for order ...', "cyan")
 

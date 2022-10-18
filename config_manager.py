@@ -5,6 +5,7 @@
 
 import json
 import os
+from notifier import notify
 
 # stores the configuration from the lvc-config.json
 config = dict()
@@ -24,6 +25,7 @@ def get_config_from_file():
 
 # validating the configuration received from lvc-config.json
 def validate_config():
+    notify("📢 config-error: ~/lvc-bin/lvc-config.json has errors.")
     if config['name'] == '':
         raise Exception("📢 config-error: name field of the voice-control-system cannot be null")
     if config['record-duration'] <= 0:

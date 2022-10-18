@@ -4,11 +4,12 @@ echo "pip installing requirements.txt ..."
 pip install -r requirements.txt
 echo "Settings up Linux-Voice-Control (lvc) ..."
 mkdir ~/lvc-bin
-echo "Copying sources to ~/lvc-bin ..."
+echo "Copying sources and icon to ~/lvc-bin ..."
 cp main.py ~/lvc-bin
 cp command_manager.py ~/lvc-bin
 cp config_manager.py ~/lvc-bin
 cp __init__.py ~/lvc-bin
+cp images/lvc-icon.png ~/lvc-bin
 echo "Copying launcher(linux-voice-control) to /usr/bin (requires root access) ..."
 sudo cp linux-voice-control /usr/bin
 sudo chmod 777 /usr/bin/linux-voice-control

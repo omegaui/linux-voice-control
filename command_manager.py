@@ -10,8 +10,10 @@ import threading
 from thefuzz import process
 from thefuzz import fuzz
 from termcolor import cprint
+from notifier import notify
 
 # stores commands from the lvc-commands.json file
+
 commands = dict()
 
 # stores all the keys in commands dictionary to be extracted by Fuzzy Matcher
@@ -42,6 +44,7 @@ def launch_if_any(text):
     if probability and is_text_prediction_applicable(text, probability[0]):
         command = commands[probability[0]]
         cprint(f'>>> executing: {command}', "green", attrs=["bold"])
+        notify(f'Executing: {command}', 250)
         threading.Thread(target=lambda: os.system(command)).start()
     else:
         cprint(">>> Unrecognized command", "red", attrs=["bold"])
