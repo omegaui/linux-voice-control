@@ -13,7 +13,6 @@ from termcolor import cprint
 from notifier import notify
 
 # stores commands from the lvc-commands.json file
-
 commands = dict()
 
 # stores all the keys in commands dictionary to be extracted by Fuzzy Matcher
