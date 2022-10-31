@@ -4,6 +4,9 @@
     <h2>Linux Voice Control</h2>
 </div>
 
+# ![](https://img.icons8.com/external-flaticons-flat-flat-icons/48/000000/external-action-gaming-ecommerce-flaticons-flat-flat-icons-2.png) See it in action
+![preview](/images/preview.gif)
+
 # ![](https://img.icons8.com/external-icongeek26-flat-icongeek26/32/000000/external-Sage-Leaves-recipes-and-ingredients-icongeek26-flat-icongeek26.png) Usage
 
 Well, this voice control system is currently in the basic mode ...
