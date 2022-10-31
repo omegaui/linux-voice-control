@@ -76,7 +76,7 @@ def main(model='base'):
         # transcribing audio ...
         # fp16 isn't supported on every CPU using,
         # fp32 by default.
-        result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False)
+        result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False, language='english')
 
         cprint("analyzing results ...", "magenta", attrs=["bold"])
         # analyzing results ...
