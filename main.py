@@ -4,6 +4,7 @@
 # github: https://github.com/omegaui/linux-voice-control
 # license: GNU GPL v3
 import wave
+from array import array
 
 import click
 import pyaudio
@@ -14,6 +15,32 @@ import command_manager
 import config_manager
 
 
+def trim(frames):
+    """Trim the blank spots at the start and end"""
+
+    def _trim(dataframe):
+        snd_started = False
+        r = array('h')
+
+        for i in dataframe:
+            if not snd_started and abs(i) > 500:
+                snd_started = True
+                r.append(i)
+
+            elif snd_started:
+                r.append(i)
+        return r
+
+    # Trim to the left
+    frames = _trim(frames)
+
+    # Trim to the right
+    frames.reverse()
+    frames = _trim(frames)
+    frames.reverse()
+    return frames
+
+
 @click.command()
 @click.option("--model", default="base", help="Model to use",
               type=click.Choice(["tiny", "base", "small", "medium", "large"]))
@@ -22,6 +49,8 @@ def main(model='base'):
     the main function ... everything begins from here :param model: default model used is "base" from the available
     models in whisper ["tiny", "base", "small", "medium", "large"]
     """
+    # managing logging
+
     model = model + ".en"  # default langauge is set to english, you can change this anytime just refer to whisper docs
     audio_model = whisper.load_model(model)  # loading the audio model from whisper
 
@@ -35,6 +64,7 @@ def main(model='base'):
     RATE = config_manager.config['rate']  # getting the frequency configuration
     RECORD_SECONDS = config_manager.config['record-duration']  # getting the record duration
     WAVE_OUTPUT_FILENAME = "lvc-last-mic-fetch.wav"  # default file which will be overwritten in every RECORD_SECONDS
+    SPEECH_THRESHOLD = config_manager.config['speech-threshold']  # speech threshold default 4000 Hz
 
     # initializing PyAudio ...
     p = pyaudio.PyAudio()
@@ -58,10 +88,19 @@ def main(model='base'):
     # And here it begins
     while True:
         frames = []
+        r = array('h')
         cprint("listening ...", "blue", attrs=["bold"])
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = stream.read(CHUNK)
             frames.append(data)  # stacking every audio frame into the list
+            r.extend(array('h', data))
+        r = trim(r)
+        if len(r) == 0:  # clip is empty
+            print('no voice')
+            continue
+        elif max(r) < SPEECH_THRESHOLD:  # no voice in clip
+            print('no speech in clip')
+            continue
         print("saving audio ...")
 
         # writing the wave file

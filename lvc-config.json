@@ -4,5 +4,7 @@
   "channels": 2,
   "rate": 44100,
   "chunk-size": 1024,
-  "notifications-enabled": true
+  "notifications-enabled": true,
+  "logs": true,
+  "speech-threshold": 4000
 }
