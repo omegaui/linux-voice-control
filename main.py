@@ -41,6 +41,15 @@ def trim(frames):
     return frames
 
 
+def log(text, color=None, attrs=None):
+    if attrs is None:
+        attrs = []
+    if color is None:
+        print(text)
+    elif config_manager.config['logs']:
+        cprint(text, color, attrs=attrs)
+
+
 @click.command()
 @click.option("--model", default="base", help="Model to use",
               type=click.Choice(["tiny", "base", "small", "medium", "large"]))
@@ -49,7 +58,6 @@ def main(model='base'):
     the main function ... everything begins from here :param model: default model used is "base" from the available
     models in whisper ["tiny", "base", "small", "medium", "large"]
     """
-    # managing logging
 
     model = model + ".en"  # default langauge is set to english, you can change this anytime just refer to whisper docs
     audio_model = whisper.load_model(model)  # loading the audio model from whisper
@@ -67,57 +75,57 @@ def main(model='base'):
     SPEECH_THRESHOLD = config_manager.config['speech-threshold']  # speech threshold default 4000 Hz
 
     # initializing PyAudio ...
-    p = pyaudio.PyAudio()
+    pyAudio = pyaudio.PyAudio()
 
     # Opening Microphone Stream with above created configuration ...
-    stream = p.open(format=FORMAT,
-                    channels=CHANNELS,
-                    rate=RATE,
-                    input=True,
-                    frames_per_buffer=CHUNK)
+    stream = pyAudio.open(format=FORMAT,
+                          channels=CHANNELS,
+                          rate=RATE,
+                          input=True,
+                          frames_per_buffer=CHUNK)
 
-    cprint("🐧 loading commands file ...", "blue")
+    log("🐧 loading commands file ...", "blue")
     # initializing command management ...
     command_manager.init()
 
-    cprint(f'🚀 voice control ready ... listening every {RECORD_SECONDS} seconds', "blue")
+    log(f'🚀 voice control ready ... listening every {RECORD_SECONDS} seconds', "blue")
 
     name = config_manager.config['name']
-    cprint(f'{name} waiting for order ...', "cyan")
+    log(f'{name} waiting for order ...', "cyan")
 
     # And here it begins
     while True:
         frames = []
         r = array('h')
-        cprint("listening ...", "blue", attrs=["bold"])
+        log("listening ...", "blue", attrs=["bold"])
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = stream.read(CHUNK)
             frames.append(data)  # stacking every audio frame into the list
             r.extend(array('h', data))
         r = trim(r)
         if len(r) == 0:  # clip is empty
-            print('no voice')
+            log('no voice')
             continue
         elif max(r) < SPEECH_THRESHOLD:  # no voice in clip
-            print('no speech in clip')
+            log('no speech in clip')
             continue
         print("saving audio ...")
 
         # writing the wave file
         wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
         wf.setnchannels(CHANNELS)
-        wf.setsampwidth(p.get_sample_size(FORMAT))
+        wf.setsampwidth(pyAudio.get_sample_size(FORMAT))
         wf.setframerate(RATE)
         wf.writeframes(b''.join(frames))
         wf.close()
 
-        print("transcribing audio data ...")
+        log("transcribing audio data ...")
         # transcribing audio ...
         # fp16 isn't supported on every CPU using,
         # fp32 by default.
         result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False, language='english')
 
-        cprint("analyzing results ...", "magenta", attrs=["bold"])
+        log("analyzing results ...", "magenta", attrs=["bold"])
         # analyzing results ...
         analyze_text(result["text"].lower().strip())
 
@@ -127,7 +135,7 @@ def analyze_text(text):
     if text == '':
         return  # no speech data available returning without performing any operation
 
-    cprint(f'You: {text}', "blue", attrs=["bold"])
+    log(f'You: {text}', "blue", attrs=["bold"])
 
     if text[len(text) - 1] in " .!?":
         text = text[0:len(text) - 1]  # removing any punctuation from the transcribed text
