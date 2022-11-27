@@ -6,8 +6,6 @@
 import json
 import os
 
-import voice_feedback
-
 # stores the configuration from the lvc-config.json
 config = dict()
 

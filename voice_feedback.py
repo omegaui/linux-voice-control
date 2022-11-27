@@ -1,3 +1,5 @@
+import random
+
 import mpv
 from gtts import gTTS
 from termcolor import cprint
@@ -19,3 +21,13 @@ def speak(text):
     speech.save('last-feedback-speech.mp3')
     player.speed = config_manager.config['voice-feedback-speed']
     player.play('last-feedback-speech.mp3')
+
+
+def givedefaultfeedback():
+    speak(getrandomdefaultfeeback())
+
+
+def getrandomdefaultfeeback():
+    speeches = config_manager.config['voice-feedback-default-speeches']
+    value = random.randint(0, len(speeches) - 1)
+    return speeches[value]

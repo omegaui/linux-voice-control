@@ -5,9 +5,15 @@
   "channels": 2,
   "rate": 44100,
   "chunk-size": 1024,
-  "notifications-enabled": true,
+  "notifications-enabled": false,
   "logs": true,
   "speech-threshold": 4000,
-  "voice-feedback-enabled": false,
-  "voice-feedback-speed": 1.2
+  "voice-feedback-enabled": true,
+  "voice-feedback-speed": 1.2,
+  "voice-feedback-default-speeches": [
+    "got it",
+    "on its way",
+    "yes sir",
+    "as you say"
+  ]
 }
