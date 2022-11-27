@@ -10,6 +10,7 @@ cp command_manager.py ~/lvc-bin
 cp config_manager.py ~/lvc-bin
 cp __init__.py ~/lvc-bin
 cp notifier.py ~/lvc-bin
+cp voice_feedback.py ~/lvc-bin
 cp images/lvc-icon.png ~/lvc-bin
 echo "Copying launcher(linux-voice-control) to /usr/bin (requires root access) ..."
 sudo cp linux-voice-control /usr/bin

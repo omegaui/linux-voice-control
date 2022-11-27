@@ -1,6 +1,6 @@
 {
   "name": "alex",
-  "greeting": "Initializing Voice Control",
+  "greeting": "Get Charge Up!, Voice Control is up and running!",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,

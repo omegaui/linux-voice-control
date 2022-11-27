@@ -64,7 +64,7 @@ def main(model='base'):
     config_manager.init()
 
     # greeting ...
-    voice_feedback.speak(config_manager.config['greeting'])
+    voice_feedback.speak(config_manager.config['greeting'], wait=True)
 
     model = model + ".en"  # default langauge is set to english, you can change this anytime just refer to whisper docs
     audio_model = whisper.load_model(model)  # loading the audio model from whisper

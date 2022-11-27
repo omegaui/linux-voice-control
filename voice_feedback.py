@@ -14,13 +14,15 @@ except Exception as e:
 
 
 # handling voice feedback
-def speak(text):
+def speak(text, wait=False):
     if not config_manager.config['voice-feedback-enabled']:
         return
     speech = gTTS(text=text, lang='en', slow=False)
     speech.save('last-feedback-speech.mp3')
     player.speed = config_manager.config['voice-feedback-speed']
     player.play('last-feedback-speech.mp3')
+    if wait:
+        player.wait_for_playback()
 
 
 def givedefaultfeedback():
