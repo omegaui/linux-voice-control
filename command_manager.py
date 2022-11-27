@@ -12,11 +12,15 @@ from termcolor import cprint
 from thefuzz import fuzz
 from thefuzz import process
 
+import config_manager
 from notifier import notify
-from voice_feedback import givedefaultfeedback
+from voice_feedback import givedefaultfeedback, speak
 
 # stores commands from the lvc-commands.json file
 commands = dict()
+
+# built-in actions
+quitCommand = "see you later"
 
 # stores all the keys in commands dictionary to be extracted by Fuzzy Matcher
 choices = []
@@ -26,6 +30,8 @@ choices = []
 def init():
     global commands, choices
     commands = get_commands_from_file()
+    name = config_manager.config['name']
+    commands[f'see you later {name}'] = "<built-in>"
     choices = list(commands.keys())
     show_commands()
 
@@ -45,6 +51,9 @@ def launch_if_any(text):
 
     if probability and is_text_prediction_applicable(text, probability[0]):
         command = commands[probability[0]]
+        if probability[0].startswith(quitCommand):
+            speak(config_manager.config['voice-feedback-turning-off'], wait=True)
+            exit(0)
         givedefaultfeedback()
         cprint(f'>>> executing: {command}', "green", attrs=["bold"])
         notify(f'Executing: {command}', 250)

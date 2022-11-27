@@ -1,6 +1,6 @@
 {
   "name": "alex",
-  "greeting": "Get Charge Up!, Voice Control is up and running!",
+  "greeting": "Welcome back Sir",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,
@@ -15,5 +15,6 @@
     "on its way",
     "yes sir",
     "as you say"
-  ]
+  ],
+  "voice-feedback-turning-off": "Ok Bye, Turning off linux voice control"
 }

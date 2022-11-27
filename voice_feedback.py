@@ -26,7 +26,7 @@ def speak(text, wait=False):
 
 
 def givedefaultfeedback():
-    speak(getrandomdefaultfeeback())
+    speak(getrandomdefaultfeeback(), wait=True)
 
 
 def getrandomdefaultfeeback():
