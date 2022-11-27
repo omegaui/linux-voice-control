@@ -6,6 +6,8 @@
 import json
 import os
 
+import voice_feedback
+
 # stores the configuration from the lvc-config.json
 config = dict()
 
@@ -26,5 +28,7 @@ def get_config_from_file():
 def validate_config():
     if config['name'] == '':
         raise Exception("📢 config-error: name field of the voice-control-system cannot be null")
+    if config['record-duration'] <= 0:
+        raise Exception("📢 config-error: record-duration must be greater than zero")
     if config['record-duration'] <= 0:
         raise Exception("📢 config-error: record-duration must be greater than zero")

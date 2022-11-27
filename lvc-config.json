@@ -1,10 +1,13 @@
 {
   "name": "alex",
+  "greeting": "Initializing Voice Control",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,
   "chunk-size": 1024,
   "notifications-enabled": true,
   "logs": true,
-  "speech-threshold": 4000
+  "speech-threshold": 4000,
+  "voice-feedback-enabled": false,
+  "voice-feedback-speed": 1.2
 }

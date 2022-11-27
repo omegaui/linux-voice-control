@@ -13,6 +13,7 @@ from termcolor import cprint
 
 import command_manager
 import config_manager
+import voice_feedback
 
 
 def trim(frames):
@@ -59,11 +60,14 @@ def main(model='base'):
     models in whisper ["tiny", "base", "small", "medium", "large"]
     """
 
-    model = model + ".en"  # default langauge is set to english, you can change this anytime just refer to whisper docs
-    audio_model = whisper.load_model(model)  # loading the audio model from whisper
-
     # initializing configuration management ...
     config_manager.init()
+
+    # greeting ...
+    voice_feedback.speak(config_manager.config['greeting'])
+
+    model = model + ".en"  # default langauge is set to english, you can change this anytime just refer to whisper docs
+    audio_model = whisper.load_model(model)  # loading the audio model from whisper
 
     # getting configurations from lvc-config.json file ...
     CHUNK = config_manager.config['chunk-size']  # getting the chunk size configuration
