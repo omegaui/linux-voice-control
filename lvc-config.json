@@ -1,6 +1,6 @@
 {
   "name": "alex",
-  "greeting": "Welcome back Sir",
+  "greeting": "Welcome back!, Initializing Desktop Voice Control",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,
