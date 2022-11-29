@@ -17,7 +17,7 @@
 </div>
 
 
-# ![](https://img.icons8.com/external-icongeek26-flat-icongeek26/32/000000/external-Sage-Leaves-recipes-and-ingredients-icongeek26-flat-icongeek26.png) Usage
+# ![](https://img.icons8.com/external-icongeek26-flat-icongeek26/32/000000/external-Sage-Leaves-recipes-and-ingredients-icongeek26-flat-icongeek26.png) Usage / Install
 
 Well, this voice control system is currently in the basic mode ...
 
