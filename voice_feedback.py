@@ -27,7 +27,7 @@ def speak(text, wait=False):
         if wait:
             player.wait_for_playback()
     except gTTSError as e:
-        if e.__str__().__contains__('Failed to connect'):
+        if str(e).find('Failed to connect') >= 0:
             notifier.notify('Voice Feedback requires network connection!')
             print("📢 Network connection is required for voice feedback!", file=sys.stderr)
         else:
@@ -35,11 +35,12 @@ def speak(text, wait=False):
             print(e)
 
 
-def givedefaultfeedback():
-    speak(getrandomdefaultfeeback(), wait=True)
+# voice feedback when a command is executed
+def giveexecutionfeedback():
+    speak(random.choice(config_manager.config['voice-feedback-default-speeches']), wait=True)
 
 
-def getrandomdefaultfeeback():
-    speeches = config_manager.config['voice-feedback-default-speeches']
-    value = random.randint(0, len(speeches) - 1)
-    return speeches[value]
+# required for live voice control -- TODO
+def givetranscribingfeedback():
+    if config_manager.config['voice-transcription-feedback-enabled']:
+        speak(random.choice(config_manager.config['voice-feedback-transcription-capable-speeches']), wait=True)

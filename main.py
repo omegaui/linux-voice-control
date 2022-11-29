@@ -123,6 +123,7 @@ def main(model='base'):
         wf.writeframes(b''.join(frames))
         wf.close()
 
+        voice_feedback.givetranscribingfeedback()
         log("transcribing audio data ...")
         # transcribing audio ...
         # fp16 isn't supported on every CPU using,

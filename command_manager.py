@@ -14,7 +14,7 @@ from thefuzz import process
 
 import config_manager
 from notifier import notify
-from voice_feedback import givedefaultfeedback, speak
+from voice_feedback import giveexecutionfeedback, speak
 
 # stores commands from the lvc-commands.json file
 commands = dict()
@@ -54,7 +54,7 @@ def launch_if_any(text):
         if probability[0].startswith(quitCommand):
             speak(config_manager.config['voice-feedback-turning-off'], wait=True)
             exit(0)
-        givedefaultfeedback()
+        giveexecutionfeedback()
         cprint(f'>>> executing: {command}', "green", attrs=["bold"])
         notify(f'Executing: {command}', 250)
         threading.Thread(target=lambda: os.system(command)).start()
