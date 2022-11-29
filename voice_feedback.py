@@ -28,10 +28,10 @@ def speak(text, wait=False):
             player.wait_for_playback()
     except gTTSError as e:
         if str(e).find('Failed to connect') >= 0:
-            notifier.notify('Voice Feedback requires network connection!')
+            notifier.notify('Voice-Feedback requires internet.', force=True)
             print("📢 Network connection is required for voice feedback!", file=sys.stderr)
         else:
-            notifier.notify('Voice Feedback failed, See logs!')
+            notifier.notify('Voice-Feedback failed, See logs!', force=True)
             print(e)
 
 
