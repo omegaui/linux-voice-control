@@ -100,20 +100,21 @@ def main(model='base'):
     # And here it begins
     while True:
         frames = []
-        r = array('h')
+        chunk_array = array('h')
         log("listening ...", "blue", attrs=["bold"])
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = stream.read(CHUNK)
             frames.append(data)  # stacking every audio frame into the list
-            r.extend(array('h', data))
-        r = trim(r)
-        if len(r) == 0:  # clip is empty
+            chunk_array.extend(array('h', data))
+        chunk_array = trim(chunk_array)
+        if len(chunk_array) == 0:  # clip is empty
             log('no voice')
             continue
-        elif max(r) < SPEECH_THRESHOLD:  # no voice in clip
+        elif max(chunk_array) < SPEECH_THRESHOLD:  # no voice in clip
             log('no speech in clip')
             continue
         print("saving audio ...")
+        print(chunk_array)
 
         # writing the wave file
         wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
