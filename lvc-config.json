@@ -1,6 +1,6 @@
 {
   "name": "alex",
-  "greeting": "Starting Linux Voice Control",
+  "greeting": "Starting Voice Control Engine",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,
@@ -13,8 +13,8 @@
   "master-mode-barrier-speech-enabled": true,
   "master-mode-barrier-speech": "Sorry! Master mode is enabled, I cannot process your request!",
   "voice-feedback-enabled": true,
-  "voice-transcription-feedback-enabled": false,
-  "voice-feedback-speed": 1.2,
+  "voice-transcription-feedback-enabled": true,
+  "voice-feedback-speed": 1.25,
   "voice-feedback-default-speeches": [
     "got it",
     "on its way",
@@ -22,8 +22,7 @@
   ],
   "voice-feedback-transcription-capable-speeches": [
     "transcribing...",
-    "getting it...",
-    "manipulating..."
+    "getting it..."
   ],
   "voice-feedback-turning-off": "Ok Bye, Turning off linux voice control"
 }

@@ -92,7 +92,7 @@ def main(model='base'):
         else:
             config_manager.config['master-mode'] = False
             voice_feedback.speak('You need to run master control mode setup to use this mode!', wait=True)
-            voice_feedback.speak('Turning off master control mode!', wait=True)
+            voice_feedback.speak('Turning off master control mode for this session!', wait=True)
             log(f'Run master control mode setup before using it!', "red", attrs=['bold'])
             log(f'Turning MASTER CONTROL MODE: OFF', "red", attrs=['bold'])
 
