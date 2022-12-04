@@ -21,9 +21,9 @@ def speak(text, wait=False):
         return
     try:
         speech = gTTS(text=text, lang='en', slow=False)
-        speech.save('last-feedback-speech.mp3')
+        speech.save('misc/last-feedback-speech.mp3')
         player.speed = config_manager.config['voice-feedback-speed']
-        player.play('last-feedback-speech.mp3')
+        player.play('misc/last-feedback-speech.mp3')
         if wait:
             player.wait_for_playback()
     except gTTSError as e:
@@ -43,4 +43,4 @@ def giveexecutionfeedback():
 # required for live voice control -- TODO
 def givetranscribingfeedback():
     if config_manager.config['voice-transcription-feedback-enabled']:
-        speak(random.choice(config_manager.config['voice-feedback-transcription-capable-speeches']), wait=True)
+        speak(random.choice(config_manager.config['voice-feedback-transcription-capable-speeches']))

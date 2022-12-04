@@ -1,4 +1,6 @@
-# under development
+# run this script to set up master control mode
+# you will be asked to speak three times (given only a second)
+# speak as much as you can, in your normal tone
 import os
 import wave
 from array import array
@@ -33,6 +35,8 @@ except Exception as e:
     exit(1)
 
 
+# records the mic and provides transcription feedback
+# @returns: bytes of audio data
 def listen():
     dataframes = []
     audio_chunks = array('h')
@@ -53,13 +57,15 @@ def listen():
     return dataframes
 
 
-def transcribe(frames):
+# saves the audio data and performs and returns the transcription result
+# @returns: transcription text from audio data
+def transcribe(dataframes):
     WAVE_OUTPUT_FILENAME = 'training-data/internal-transcription.wav'
     wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
     wf.setnchannels(2)
     wf.setsampwidth(pyAudio.get_sample_size(pyaudio.paInt16))
     wf.setframerate(44100)
-    wf.writeframes(b''.join(frames))
+    wf.writeframes(b''.join(dataframes))
     wf.close()
 
     audio_model = whisper.load_model('base.en')  # loading the audio model from whisper
@@ -68,22 +74,23 @@ def transcribe(frames):
 
 
 cprint('\n-----------------------ignore-above-warnings-if-any-----------------------', 'red', attrs=['bold'])
-cprint('Welcome to Live Mode Setup!', 'blue', attrs=['bold'])
-cprint('This mode will guide you to setup your control system for instant response.', 'blue', attrs=['bold'])
-cprint('Hope! you have reviewed the lvc-config.json file, and your system name is all set.', 'magenta', attrs=['bold'])
+cprint('Welcome to Master Control Mode Setup', "blue", attrs=['bold'])
+cprint('We need to record some samples of your voice', "blue", attrs=['bold'])
 
 system_name = config_manager.config['name']
 cprint(f'Current System Name: {system_name}', 'blue', attrs=["bold"])
-cprint(f'Now, you will be asked to speak three spawner commands, you can speak whatever you want to trigger your '
-       f'live system, e.g hey {system_name}', 'green', attrs=['bold'])
-cprint('You are given only a second to speak!', 'red', attrs=['bold'])
+cprint(
+    f'Now, you will be asked to speak three times, you can speak whatever you want to trigger your live system, e.g hey {system_name}',
+    'green', attrs=['bold'])
+cprint('Note: You are given only a second to speak!', 'red', attrs=['bold'])
 
-choice = input('Ready to say the command? (y/n) default y: ')
+choice = input('Ready to speak? (y/n) default y: ')
 if choice == '':
     choice = 'y'
 
-chances = 3
+chances = 3  # no of samples needed
 
+# collecting voice samples ...
 while choice in 'yn':
     if choice == 'y':
         audio_frames = listen()
@@ -98,32 +105,30 @@ while choice in 'yn':
         else:
             cprint('Try Again!', 'blue', attrs=['bold'])
     else:
-        cprint('Quitting Live Mode Setup', 'red', attrs=['bold'])
+        cprint('Quitting Master Mode Setup', 'red', attrs=['bold'])
         stream.close()
     if chances == 0:
         break
-    choice = input('Ready to say the next command? (y/n) default y: ')
+    choice = input('Ready to speak again? (y/n) default y: ')
     if choice == '':
         choice = 'y'
 
-# creating live data file ...
+# creating master data samples ...
 if chances != 3:
     cprint('Saving Training Data', 'blue', attrs=['bold'])
 
     for key in training_data_set:
         frames = b''.join(training_data_set[key])
 
-        file = open(f'training-data/live_mode_training_data{key}.bin', 'wb')
-        file.write(frames)
-        file.close()
-
-        wf = wave.open(f'training-data/live_mode_training_audio{key}.wav', 'wb')
+        wf = wave.open(f'training-data/master_mode_audio_sample{key}.wav', 'wb')
         wf.setnchannels(2)
         wf.setsampwidth(pyAudio.get_sample_size(pyaudio.paInt16))
         wf.setframerate(44100)
         wf.writeframes(frames)
         wf.close()
 
-    cprint('Live Mode is all Set!', 'blue', attrs=['bold'])
+    open('training-data/master-mode', "w").close()
+
+    cprint('Master Mode is all Set!', 'blue', attrs=['bold'])
 else:
     cprint('No Training Data collected, restart the program to try again!', 'red', attrs=['bold'])

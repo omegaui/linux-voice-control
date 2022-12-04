@@ -16,12 +16,53 @@
 
 </div>
 
+# ![](https://img.icons8.com/color/48/null/metallic-paint.png) Features
+- [x] Master Control Mode (yeah, it's your Jarvis Now)
+- [x] Voice Feedback 
+- [x] Desktop Notifications
+- [x] Simplest Command Execution Logic (use your own words and map them to a command in **lvc-commands.json**)
+- [x] Accurate Master Voice Matching using **[speechbrain](https://speechbrain.github.io/#)**
+- [x] Automated Setup!
+- [x] Customization
+  - [x] Change Your Control System Name
+  - [x] Voice Feedback Speech Control
+  - [x] Voice Feedback Speed Control
+  - [x] Total Execution Control through configuration
+- [ ] **[Live Mode](https://github.com/omegaui/linux-voice-control/issues/3)** (under development, until, the system listens every **x seconds**, where **x** is the **record-duration** property in **lvc-config.json**)
+- [ ] **[Dynamic Mode](https://github.com/omegaui/linux-voice-control/issues/5)**
+
+**Pro-Tip**: _Say '**See you later**' to it turn off._
+
+
+<div align="center">
+  <img src="https://img.icons8.com/external-flaticons-flat-flat-icons/320/null/external-master-martial-arts-flaticons-flat-flat-icons.png"/>
+  <h3>Master Control Mode</h3>
+</div>
+
+Ok! ;) 
+
+Let's just see how to set up master control mode:
+
+After installing,
+run the **master_control_mode_setup.py** script
+```shell
+python master_control_mode_setup.py
+```
+
+You will be asked to speak three times give only a second each time.
+Speak as much as you can but in your normal tone!
+After Saving the training-data, this program exists **without** actually enabling master control mode.
+
+For enabling master control mode, you need to set this property in **lvc-config.json** to **true**
+```json
+{
+  "master-mode": true
+}
+```
 
 # ![](https://img.icons8.com/external-icongeek26-flat-icongeek26/32/000000/external-Sage-Leaves-recipes-and-ingredients-icongeek26-flat-icongeek26.png) Usage / Install
 
-Well, this voice control system is currently in the basic mode ...
-
-Lets quick finish the setup and tell you how
+Lets quick finish the setup
 ```shell
 git clone https://github.com/omegaui/linux-voice-control
 cd linux-voice-control
@@ -31,12 +72,37 @@ cd linux-voice-control
 The `install.sh` script will set up your installation of linux-voice-control by installing some dependencies with pip.
 
 The above process will finish off writing `lvc-config.json` and `lvc-commands.json` file to your root (~) and also the sources to `~/lvc-bin`.
-That's how the first two lines of `lvc-config.json` look initially ...
-```
+That's how your `lvc-config.json` look initially ...
+```json
 {
-  "name": "alex", # name of your control system
-  "record-duration": 3, # duration in which you will speak your command ... simultaneously keeps on listening for every 3s
-...
+  "name": "alex",
+  "greeting": "Starting Linux Voice Control",
+  "record-duration": 3,
+  "channels": 2,
+  "rate": 44100,
+  "chunk-size": 1024,
+  "notifications-enabled": false,
+  "logs": true,
+  "speech-threshold": 3000,
+  "live-mode": false,
+  "master-mode": false,
+  "master-mode-barrier-speech-enabled": true,
+  "master-mode-barrier-speech": "Sorry! Master mode is enabled, I cannot process your request!",
+  "voice-feedback-enabled": true,
+  "voice-transcription-feedback-enabled": false,
+  "voice-feedback-speed": 1.2,
+  "voice-feedback-default-speeches": [
+    "got it",
+    "on its way",
+    "processing ..."
+  ],
+  "voice-feedback-transcription-capable-speeches": [
+    "transcribing...",
+    "getting it...",
+    "manipulating..."
+  ],
+  "voice-feedback-turning-off": "Ok Bye, Turning off linux voice control"
+}
 ```
 <div align="center"><strong>lvc-config.json</strong></div>
 
@@ -70,9 +136,9 @@ Just like you search something on Google and getting the correct results even af
 Your installation is all set for usage (for forking too 😉).
 Just hit `linux-voice-control` in the terminal.
 
-**Life Saver Tip: Add `linux-voice-control` to your startup scripts**
+**Life Saver Tip: _Add `linux-voice-control` to your startup scripts_**
 
-**Future Ideas**: Adding Dynamic Voice Control like _hey alex ... call spiderman_ (you already know things like that) and most important things [discussions](https://github.com/omegaui/linux-voice-control/discussions)
+**Future Ideas**: Adding Dynamic Voice Control like _hey alex ... call Spider-Man_ (you already know things like that) and most important things [discussions](https://github.com/omegaui/linux-voice-control/discussions)
 
 # ![](https://img.icons8.com/fluency/32/000000/sourcetree.png) Build from source
 
@@ -115,9 +181,9 @@ perform some other complex task.
 
 ### Example
 ```json
-...
-"its time to rock": "/usr/bin/setup-spotify-chill-mode"
-...
+{
+  "its time to rock": "/usr/bin/setup-spotify-chill-mode"
+}
 ```
 <div align="center">A new entry in <strong>lvc-commands.json</strong></div> 
 
@@ -127,7 +193,8 @@ perform some other complex task.
 echo "Listen I don't know actually how to do this ... but I think you got what I mean ..."
 # some code here that launches spotify and starts playing that playlist
 ```
-<div align="center"><strong>setup-spotify-chill-mode.sh</strong></div> 
-
-
-
+<div align="center"><strong>setup-spotify-chill-mode.sh</strong></div>
+<div align="center">
+  <img src="https://img.icons8.com/color/240/null/two-hearts.png"/>
+  <a href="https://github.com/omegaui"><h1>🐧 Happy Hacking 🐧</h1></a>
+</div>

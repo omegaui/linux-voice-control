@@ -1,3 +1,4 @@
+
 from array import array
 
 
@@ -25,3 +26,4 @@ def trim(frames):
     frames = _trim(frames)
     frames.reverse()
     return frames
+

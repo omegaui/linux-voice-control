@@ -67,7 +67,6 @@ def is_text_prediction_applicable(text, predicted_text):
         # Using Sort Ratio Fuzzy Match to validate if
         # the vocal and the probable command contain same words
         ratio = fuzz.token_sort_ratio(text, predicted_text)
-        print("tokenizer ratio:", ratio)
         return ratio > 60  # ratio threshold must be 60 or more accurate
     return True  # No further check is performed for single word commands
 

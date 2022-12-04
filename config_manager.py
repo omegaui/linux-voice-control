@@ -8,18 +8,23 @@ import os
 
 # stores the configuration from the lvc-config.json
 config = dict()
+live_config = dict()
 
 
 # initializing config with configuration specified in lvc-config.json
 def init():
-    global config
-    config = get_config_from_file()
+    global config, live_config
+    config = get_config_from_file("lvc-config.json")
+    live_config = get_config_from_file("live_data.json")
     validate_config()
 
 
 # getting json data from file
-def get_config_from_file():
-    return json.load(open(os.path.join(os.getcwd(), "lvc-config.json")))
+def get_config_from_file(filename):
+    try:
+        return json.load(open(os.path.join(os.getcwd(), filename)))
+    except Exception as e:
+        return dict()
 
 
 # validating the configuration received from lvc-config.json
