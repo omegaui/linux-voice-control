@@ -7,7 +7,7 @@
   "chunk-size": 1024,
   "notifications-enabled": false,
   "logs": true,
-  "speech-threshold": 3000,
+  "speech-threshold": 2000,
   "live-mode": false,
   "master-mode": false,
   "master-mode-barrier-speech-enabled": true,

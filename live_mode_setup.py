@@ -45,7 +45,7 @@ def listen():
     if len(audio_chunks) == 0:  # clip is empty
         print('no voice')
         return None
-    elif max(audio_chunks) < 3000:  # no voice in clip
+    elif max(audio_chunks) < 2000:  # no voice in clip
         print('no speech in clip')
         return None
     cprint("transcribing ...", "green", attrs=["bold"])

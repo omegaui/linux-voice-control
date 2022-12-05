@@ -49,7 +49,7 @@ def listen():
     if len(audio_chunks) == 0:  # clip is empty
         print('no voice')
         return None
-    elif max(audio_chunks) < 3000:  # no voice in clip
+    elif max(audio_chunks) < 2000:  # no voice in clip
         print('no speech in clip')
         return None
     cprint("transcribing ...", "green", attrs=["bold"])
@@ -80,7 +80,7 @@ cprint('We need to record some samples of your voice', "blue", attrs=['bold'])
 system_name = config_manager.config['name']
 cprint(f'Current System Name: {system_name}', 'blue', attrs=["bold"])
 cprint(
-    f'Now, you will be asked to speak three times, you can speak whatever you want to trigger your live system, e.g hey {system_name}',
+    f'Now, you will be asked to speak three times, you can speak whatever you want, e.g hey {system_name}',
     'green', attrs=['bold'])
 cprint('Note: You are given only 3 seconds to speak!', 'red', attrs=['bold'])
 
