@@ -106,7 +106,6 @@ def main(model='base'):
             log("listening ...", "blue", attrs=["bold"])
             for i in range(0, int(44100 / 1024 * 2)):
                 data = stream.read(1024)
-                # print(data)
                 frames.append(data)  # stacking every audio frame into the list
             if live_mode_manager.compare(frames):
                 voice_feedback.speak('match test succeeded!', wait=True)

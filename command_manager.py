@@ -6,7 +6,8 @@
 
 import json
 import os.path
-import threading
+import shlex
+import subprocess
 
 from termcolor import cprint
 from thefuzz import fuzz
@@ -65,7 +66,7 @@ def launch_if_any(text):
             give_execution_feedback()
             cprint(f'>>> executing: {command}', "green", attrs=["bold"])
             notify(f'Executing: {command}', 250)
-            threading.Thread(target=lambda: os.system(command)).start()
+            subprocess.Popen(shlex.split(command), start_new_session=True)  # using subprocess will easily detach it
     else:
         cprint(">>> Unrecognized command", "red", attrs=["bold"])
 
