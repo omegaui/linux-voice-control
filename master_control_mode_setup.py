@@ -35,13 +35,13 @@ except Exception as e:
     exit(1)
 
 
-# records the mic and provides transcription feedback
+# records the mic and provides transcription result
 # @returns: bytes of audio data
 def listen():
     dataframes = []
     audio_chunks = array('h')
     cprint("listening ...", "blue", attrs=["bold"])
-    for i in range(0, int(44100 / 1024 * 2)):
+    for i in range(0, int(44100 / 1024 * 3)):
         data = stream.read(1024)
         dataframes.append(data)  # stacking every audio frame into the list
         audio_chunks.extend(array('h', data))
@@ -82,7 +82,7 @@ cprint(f'Current System Name: {system_name}', 'blue', attrs=["bold"])
 cprint(
     f'Now, you will be asked to speak three times, you can speak whatever you want to trigger your live system, e.g hey {system_name}',
     'green', attrs=['bold'])
-cprint('Note: You are given only a second to speak!', 'red', attrs=['bold'])
+cprint('Note: You are given only 3 seconds to speak!', 'red', attrs=['bold'])
 
 choice = input('Ready to speak? (y/n) default y: ')
 if choice == '':

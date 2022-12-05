@@ -33,10 +33,15 @@
 
 **Pro-Tip**: _Say '**See you later**' to it turn off._
 
+**Pro-Tip**: _Say '**Activate master control mode**' to turn on master control mode without manual config._
+
+**Pro-Tip**: _Say '**Deactivate master control mode**' to turn off master control mode without manual config._
+
+**_Yes, these are the built-in actions!_**
 
 <div align="center">
   <img src="https://img.icons8.com/external-flaticons-flat-flat-icons/320/null/external-master-martial-arts-flaticons-flat-flat-icons.png"/>
-  <h3>Master Control Mode</h3>
+  <h1>Master Control Mode</h1>
 </div>
 
 Ok! ;) 
@@ -46,10 +51,10 @@ Let's just see how to set up master control mode:
 After installing,
 run the **master_control_mode_setup.py** script
 ```shell
-python master_control_mode_setup.py
+python3 master_control_mode_setup.py
 ```
 
-You will be asked to speak three times give only a second each time.
+You will be asked to speak three times given only 3 seconds each time.
 Speak as much as you can but in your normal tone!
 After Saving the training-data, this program exists **without** actually enabling master control mode.
 
@@ -76,7 +81,7 @@ That's how your `lvc-config.json` look initially ...
 ```json
 {
   "name": "alex",
-  "greeting": "Starting Linux Voice Control",
+  "greeting": "Starting Voice Control Engine",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,
@@ -89,8 +94,8 @@ That's how your `lvc-config.json` look initially ...
   "master-mode-barrier-speech-enabled": true,
   "master-mode-barrier-speech": "Sorry! Master mode is enabled, I cannot process your request!",
   "voice-feedback-enabled": true,
-  "voice-transcription-feedback-enabled": false,
-  "voice-feedback-speed": 1.2,
+  "voice-transcription-feedback-enabled": true,
+  "voice-feedback-speed": 1.25,
   "voice-feedback-default-speeches": [
     "got it",
     "on its way",
@@ -98,10 +103,9 @@ That's how your `lvc-config.json` look initially ...
   ],
   "voice-feedback-transcription-capable-speeches": [
     "transcribing...",
-    "getting it...",
-    "manipulating..."
+    "getting it..."
   ],
-  "voice-feedback-turning-off": "Ok Bye, Turning off linux voice control"
+  "voice-feedback-turning-off": "Turning off linux voice control, See you later!"
 }
 ```
 <div align="center"><strong>lvc-config.json</strong></div>

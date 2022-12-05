@@ -36,11 +36,11 @@ def speak(text, wait=False):
 
 
 # voice feedback when a command is executed
-def giveexecutionfeedback():
+def give_execution_feedback():
     speak(random.choice(config_manager.config['voice-feedback-default-speeches']), wait=True)
 
 
 # required for live voice control -- TODO
-def givetranscribingfeedback():
+def give_transcription_feedback():
     if config_manager.config['voice-transcription-feedback-enabled']:
         speak(random.choice(config_manager.config['voice-feedback-transcription-capable-speeches']))

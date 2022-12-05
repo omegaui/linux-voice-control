@@ -151,7 +151,7 @@ def main(model='base'):
                         voice_feedback.speak(config_manager.config['master-mode-barrier-speech'], wait=True)
                     continue
                 log('performing master mode analysis ... succeeded', "green", attrs=['bold'])
-            voice_feedback.givetranscribingfeedback()
+            voice_feedback.give_transcription_feedback()
             log("transcribing audio data ...")
             # transcribing audio ...
             # fp16 isn't supported on every CPU using,

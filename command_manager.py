@@ -13,14 +13,20 @@ from thefuzz import fuzz
 from thefuzz import process
 
 import config_manager
+import master_mode_manager
 from notifier import notify
-from voice_feedback import giveexecutionfeedback, speak
+from voice_feedback import give_execution_feedback, speak
 
 # stores commands from the lvc-commands.json file
 commands = dict()
 
 # built-in actions
-quitCommand = "see you later"
+quitCommand = "see you later"  # say this to turn off your voice control engine
+activateMasterModeCommand = "activate master control mode"  # say this to turn on master control mode
+deactivateMasterModeCommand = "deactivate master control mode"  # say this turn off master control mode
+
+# internal-vars
+self_activated_master_mode = False  # used for notifying the user if master control mode was enabled implicitly
 
 # stores all the keys in commands dictionary to be extracted by Fuzzy Matcher
 choices = []
@@ -31,7 +37,11 @@ def init():
     global commands, choices
     commands = get_commands_from_file()
     name = config_manager.config['name']
+
     commands[f'see you later {name}'] = "<built-in>"
+    commands[activateMasterModeCommand] = "<built-in>"
+    commands[deactivateMasterModeCommand] = "<built-in>"
+
     choices = list(commands.keys())
     show_commands()
 
@@ -51,17 +61,16 @@ def launch_if_any(text):
 
     if probability and is_text_prediction_applicable(text, probability[0]):
         command = commands[probability[0]]
-        if probability[0].startswith(quitCommand):
-            speak(config_manager.config['voice-feedback-turning-off'], wait=True)
-            exit(0)
-        giveexecutionfeedback()
-        cprint(f'>>> executing: {command}', "green", attrs=["bold"])
-        notify(f'Executing: {command}', 250)
-        threading.Thread(target=lambda: os.system(command)).start()
+        if not check_for_built_in_actions(probability[0]):
+            give_execution_feedback()
+            cprint(f'>>> executing: {command}', "green", attrs=["bold"])
+            notify(f'Executing: {command}', 250)
+            threading.Thread(target=lambda: os.system(command)).start()
     else:
         cprint(">>> Unrecognized command", "red", attrs=["bold"])
 
 
+# performs further fuzzy match to ensure the command to be executed is correct
 def is_text_prediction_applicable(text, predicted_text):
     if ' ' in predicted_text:
         # Using Sort Ratio Fuzzy Match to validate if
@@ -69,6 +78,45 @@ def is_text_prediction_applicable(text, predicted_text):
         ratio = fuzz.token_sort_ratio(text, predicted_text)
         return ratio > 60  # ratio threshold must be 60 or more accurate
     return True  # No further check is performed for single word commands
+
+
+# before diving further, we perform a check for in-built actions here
+# @returns: True if an implicit action is invoked
+def check_for_built_in_actions(text):
+    global self_activated_master_mode
+    if text.startswith(quitCommand):
+        if self_activated_master_mode:
+            speak('Deactivating Master Control Mode of this session', wait=True)
+        speak(config_manager.config['voice-feedback-turning-off'], wait=True)
+        exit(0)
+    elif hasText(text, activateMasterModeCommand):
+        if config_manager.config['master-mode']:
+            speak('Master Control Mode is already Activated', wait=True)
+            return True
+        if not master_mode_manager.canEnableMasterMode():
+            speak('You need to configure master control mode before using it, refer to project\'s readme', wait=True)
+            return True
+        config_manager.config['master-mode'] = True
+        self_activated_master_mode = True
+        speak('Activated Master Control Mode', wait=True)
+        return True
+    elif hasText(text, deactivateMasterModeCommand):
+        if not config_manager.config['master-mode']:
+            speak('Master Control Mode is already Off', wait=True)
+            return True
+        config_manager.config['master-mode'] = False
+        self_activated_master_mode = False
+        speak('Deactivated Master Control Mode', wait=True)
+        return True
+    return False
+
+
+# finds if the @source actually encloses the @text in it
+def hasText(source, text):
+    if text in source:
+        index = source.find(text)
+        return index == 0 or not source[index - 1].isalpha()
+    return False
 
 
 # lists all the available commands to the console

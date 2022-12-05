@@ -1,4 +1,11 @@
+import os.path
+
 from speechbrain.pretrained import SpeakerRecognition
+
+
+# @return True if master-mode configuration is ready
+def canEnableMasterMode():
+    return os.path.exists('training-data/master-mode')
 
 
 # uses speechbrain to check if the current mic fetched audio is same as the master mode sample audio
