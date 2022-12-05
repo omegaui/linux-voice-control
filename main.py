@@ -75,6 +75,7 @@ def main(model='base'):
                           frames_per_buffer=CHUNK)
 
     log("🐧 loading commands file ...", "blue")
+
     # initializing command management ...
     command_manager.init()
 

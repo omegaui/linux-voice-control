@@ -1,3 +1,4 @@
 #!/bin/bash
 
-python3 ~/lvc-bin/main.py "$@"
+cd ~/lvc-bin || exit
+python3 main.py "$@"

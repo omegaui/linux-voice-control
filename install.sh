@@ -21,8 +21,8 @@ echo "Copying launcher(linux-voice-control) to /usr/bin (requires root access) .
 sudo cp linux-voice-control /usr/bin
 sudo chmod 777 /usr/bin/linux-voice-control
 echo "Copying default commands and config to ~ ..."
-cp lvc-commands.json ~
-cp lvc-config.json ~
+cp lvc-commands.json ~/lvc-bin
+cp lvc-config.json ~/lvc-bin
 echo "All Set"
 echo "That's how your lvc-config.json looks right now ..."
 cat ~/lvc-config.json
