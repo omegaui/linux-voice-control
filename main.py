@@ -4,6 +4,7 @@
 # github: https://github.com/omegaui/linux-voice-control
 # license: GNU GPL v3
 import os
+import sys
 import wave
 from array import array
 from os.path import exists
@@ -40,11 +41,15 @@ def log(text, color=None, attrs=None):
 @click.command()
 @click.option("--model", default="base", help="Model to use",
               type=click.Choice(["tiny", "base", "small", "medium", "large"]))
-def main(model='base'):
+@click.option("--ui", default="false", help="Launch in UI Mode [true/false]",
+              type=click.Choice(["true", "false"]))
+def main(model='base', ui='false'):
     """
     the main function ... everything begins from here :param model: default model used is "base" from the available
     models in whisper ["tiny", "base", "small", "medium", "large"]
     """
+    if ui == 'true':
+        sys.stdout = sys.stderr
 
     # initializing configuration management ...
     config_manager.init()

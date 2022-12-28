@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/lvc-bin || exit
+java -jar gui-bin/lvc-gui.jar

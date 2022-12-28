@@ -1,3 +1,4 @@
+import os.path
 import random
 import sys
 
@@ -60,13 +61,26 @@ def _speak_and_save(text, filename):
 
 # voice feedback when a command is executed
 def give_execution_feedback():
-    speak(random.choice(config_manager.config['voice-feedback-default-speeches']), wait=True)
+    if internet:
+        speech = speak(random.choice(config_manager.config['voice-feedback-default-speeches']), wait=True)
+        if config_manager.config['voice-cache-enabled']:
+            speech.save('misc/execution-feedback.mp3')
+    elif os.path.exists('misc/execution-feedback.mp3'):
+        player.speed = config_manager.config['voice-feedback-speed']
+        player.play('misc/execution-feedback.mp3')
+        player.wait_for_playback()
 
 
 # required for live voice control
 def give_transcription_feedback():
     if config_manager.config['voice-transcription-feedback-enabled']:
-        speak(random.choice(config_manager.config['voice-feedback-transcription-capable-speeches']))
+        if internet:
+            speech = speak(random.choice(config_manager.config['voice-feedback-transcription-capable-speeches']))
+            if config_manager.config['voice-cache-enabled']:
+                speech.save('misc/transcription-feedback.mp3')
+        elif os.path.exists('misc/transcription-feedback.mp3'):
+            player.speed = config_manager.config['voice-feedback-speed']
+            player.play('misc/transcription-feedback.mp3')
 
 
 # checks if network is reachable

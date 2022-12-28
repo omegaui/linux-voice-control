@@ -24,6 +24,7 @@
 </div>
 
 # ![](https://img.icons8.com/color/48/null/metallic-paint.png) Features
+- [x] GUI Mode (Java 17 or above required)
 - [x] Master Control Mode (yeah, it's your Jarvis Now)
 - [x] Voice Feedback 
 - [x] Desktop Notifications
@@ -147,7 +148,7 @@ Just like you search something on Google and getting the correct results even af
 Your installation is all set for usage (for forking too 😉).
 Just hit `linux-voice-control` in the terminal.
 
-**Life Saver Tip: _Add `linux-voice-control` to your startup scripts_**
+**Life Saver Tip: _Add `linux-voice-control-gui` to your startup scripts_**
 
 **Future Ideas**: Adding Dynamic Voice Control like _hey alex ... call Spider-Man_ (you already know things like that) and most important things [discussions](https://github.com/omegaui/linux-voice-control/discussions)
 
