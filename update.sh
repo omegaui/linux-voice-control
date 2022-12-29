@@ -4,6 +4,8 @@ echo "pip installing requirements.txt ..."
 pip install -r requirements.txt
 echo "Settings up Linux-Voice-Control (lvc) ..."
 mkdir ~/lvc-bin
+mkdir ~/lvc-bin/misc
+mkdir ~/lvc-bin/gui-bin
 echo "Copying sources and icon to ~/lvc-bin ..."
 cp main.py ~/lvc-bin
 cp command_manager.py ~/lvc-bin
@@ -17,11 +19,23 @@ cp live_mode_setup.py ~/lvc-bin
 cp master_mode_manager.py ~/lvc-bin
 cp master_control_mode_setup.py ~/lvc-bin
 cp images/lvc-icon.png ~/lvc-bin
+cp misc/greeting.mp3 ~/lvc-bin/misc
+cp misc/internal-voice-feedback-error.mp3 ~/lvc-bin/misc
+cp misc/network-error.mp3 ~/lvc-bin/misc
+cp gui-bin/lvc-gui.jar ~/lvc-bin/gui-bin
 echo "Copying launcher(linux-voice-control) to /usr/bin (requires root access) ..."
 sudo cp linux-voice-control /usr/bin
-sudo chmod 777 /usr/bin/linux-voice-control
+sudo cp linux-voice-control-gui /usr/bin
+sudo chmod 777 /usr/bin/linux-voice-control /usr/bin/linux-voice-control-gui
+echo "Check the config for any new entry."
 echo "All Set"
-echo "your configuration and command sets are left untouched!"
+echo "That's how your lvc-config.json looks right now ..."
+cat ~/lvc-config.json
 echo
-echo "Execute linux-voice-control now to start it here!"
+echo "And these are some raw commands ..."
+cat ~/lvc-commands.json
+echo
+echo "Attach linux-voice-control-gui script to your startup for an always ready assist."
+echo
+echo "Execute linux-voice-control or linux-voice-control-gui now to start it here!"
 
