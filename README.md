@@ -24,7 +24,7 @@
 </div>
 
 # ![](https://img.icons8.com/color/48/null/metallic-paint.png) Features
-- [x] GUI Mode (Java 17 or above required)
+- [x] GUI Mode (using Flutter)
 - [x] Master Control Mode (yeah, it's your Jarvis Now)
 - [x] Voice Feedback 
 - [x] Desktop Notifications

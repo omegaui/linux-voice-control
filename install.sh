@@ -5,7 +5,7 @@ pip install -r requirements.txt
 echo "Settings up Linux-Voice-Control (lvc) ..."
 mkdir ~/lvc-bin
 mkdir ~/lvc-bin/misc
-mkdir ~/lvc-bin/gui-bin
+mkdir ~/lvc-bin/gui
 echo "Copying sources and icon to ~/lvc-bin ..."
 cp main.py ~/lvc-bin
 cp command_manager.py ~/lvc-bin
@@ -22,11 +22,11 @@ cp images/lvc-icon.png ~/lvc-bin
 cp misc/greeting.mp3 ~/lvc-bin/misc
 cp misc/internal-voice-feedback-error.mp3 ~/lvc-bin/misc
 cp misc/network-error.mp3 ~/lvc-bin/misc
-cp gui-bin/lvc-gui.jar ~/lvc-bin/gui-bin
-echo "Copying launcher(linux-voice-control) to /usr/bin (requires root access) ..."
+cp -r gui/* ~/lvc-bin/gui
+echo "Copying all launchers to /usr/bin (requires root access) ..."
 sudo cp linux-voice-control /usr/bin
 sudo cp linux-voice-control-gui /usr/bin
-sudo chmod 777 /usr/bin/linux-voice-control /usr/bin/linux-voice-control-gui
+sudo chmod 777 /usr/bin/linux-voice-control /usr/bin/linux-voice-control-gui ~/lvc-bin/gui/lvc_gui_flutter
 echo "Copying default commands and config to ~ ..."
 cp lvc-commands.json ~/lvc-bin
 cp lvc-config.json ~/lvc-bin

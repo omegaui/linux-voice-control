@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ~/lvc-bin || exit
-java -jar gui-bin/lvc-gui.jar
+cd ~/lvc-bin/gui || exit
+./lvc_gui_flutter
