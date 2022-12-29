@@ -5,11 +5,7 @@ import com.omegaui.lvc.widgets.CloseButton;
 
 import javax.swing.JPanel;
 import javax.swing.JWindow;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -29,7 +25,8 @@ public class App extends JWindow {
         initListeners();
         pack();
         setSize(180, 100);
-        setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(10, screenSize.height - 120);
         setAlwaysOnTop(true);
         initUI();
         setVisible(true);

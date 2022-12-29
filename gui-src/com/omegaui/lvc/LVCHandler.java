@@ -42,7 +42,6 @@ public class LVCHandler {
                 while (process.isAlive()) {
                     while (reader.hasNextLine()) {
                         String line = reader.nextLine();
-                        System.out.println(line);
                         if (line.contains("listening")) {
                             app.setStatus("linux-voice-control");
                             app.setTag(LISTENING_TAG);
