@@ -16,7 +16,7 @@ from thefuzz import process
 import config_manager
 import master_mode_manager
 from notifier import notify
-from voice_feedback import give_execution_feedback, speak
+from voice_feedback import give_execution_feedback, speak, give_exiting_feedback
 
 # stores commands from the lvc-commands.json file
 commands = dict()
@@ -86,9 +86,10 @@ def is_text_prediction_applicable(text, predicted_text):
 def check_for_built_in_actions(text):
     global self_activated_master_mode
     if text.startswith(quitCommand):
+        give_execution_feedback()
         if self_activated_master_mode:
             speak('Deactivating Master Control Mode of this session', wait=True)
-        speak(config_manager.config['voice-feedback-turning-off'], wait=True)
+        give_exiting_feedback()
         exit(0)
     elif hasText(text, activateMasterModeCommand):
         if config_manager.config['master-mode']:

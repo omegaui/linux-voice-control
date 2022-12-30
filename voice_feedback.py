@@ -39,7 +39,6 @@ def speak(text, wait=False):
         if str(e).find('Failed to connect') >= 0:
             player.play('misc/network-error.mp3')
             player.wait_for_playback()
-            notifier.notify('Voice-Feedback requires internet.', force=True)
             print("📢 Network connection is required for voice feedback!", file=sys.stderr)
         else:
             player.play('misc/internal-voice-feedback-error.mp3')
@@ -68,6 +67,18 @@ def give_execution_feedback():
     elif os.path.exists('misc/execution-feedback.mp3'):
         player.speed = config_manager.config['voice-feedback-speed']
         player.play('misc/execution-feedback.mp3')
+        player.wait_for_playback()
+
+
+# voice feedback when exiting
+def give_exiting_feedback():
+    if internet:
+        speech = speak(config_manager.config['voice-feedback-turning-off'], wait=True)
+        if config_manager.config['voice-cache-enabled']:
+            speech.save('misc/exiting-feedback.mp3')
+    elif os.path.exists('misc/exiting-feedback.mp3'):
+        player.speed = config_manager.config['voice-feedback-speed']
+        player.play('misc/exiting-feedback.mp3')
         player.wait_for_playback()
 
 

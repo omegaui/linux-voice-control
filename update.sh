@@ -22,6 +22,7 @@ cp images/lvc-icon.png ~/lvc-bin
 cp misc/greeting.mp3 ~/lvc-bin/misc
 cp misc/internal-voice-feedback-error.mp3 ~/lvc-bin/misc
 cp misc/network-error.mp3 ~/lvc-bin/misc
+cp misc/exiting-feedback.mp3 ~/lvc-bin/misc
 cp -r gui/* ~/lvc-bin/gui
 echo "Copying all launchers to /usr/bin (requires root access) ..."
 sudo cp linux-voice-control /usr/bin
