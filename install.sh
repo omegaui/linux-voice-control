@@ -33,10 +33,10 @@ cp lvc-commands.json ~/lvc-bin
 cp lvc-config.json ~/lvc-bin
 echo "All Set"
 echo "That's how your lvc-config.json looks right now ..."
-cat ~/lvc-config.json
+cat ~/lvc-bin/lvc-config.json
 echo
 echo "And these are some raw commands ..."
-cat ~/lvc-commands.json
+cat ~/lvc-bin/lvc-commands.json
 echo
 echo "Attach linux-voice-control-gui script to your startup for an always ready assist."
 echo

@@ -31,10 +31,10 @@ sudo chmod 777 /usr/bin/linux-voice-control /usr/bin/linux-voice-control-gui ~/l
 echo "Remember to check config for changes ..."
 echo "All Set"
 echo "That's how your lvc-config.json looks right now ..."
-cat ~/lvc-config.json
+cat ~/lvc-bin/lvc-config.json
 echo
 echo "And these are some raw commands ..."
-cat ~/lvc-commands.json
+cat ~/lvc-bin/lvc-commands.json
 echo
 echo "Attach linux-voice-control-gui script to your startup for an always ready assist."
 echo
