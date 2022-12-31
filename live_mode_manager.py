@@ -1,67 +1,53 @@
 # under development
 
-import collections
-import math
+import librosa
+import numpy as np
+import soundfile
 
-from termcolor import cprint
-
+threshold = []
 trainingDataSet = []
 
 
 def readfile(filename):
-    file = open(filename, 'rb')
-    data = file.read()
-    file.close()
-    return data
+    return soundfile.read(filename)
 
 
 def init():
-    data1 = readfile('training-data/live_mode_training_data1.bin')
-    data2 = readfile('training-data/live_mode_training_data2.bin')
-    data3 = readfile('training-data/live_mode_training_data3.bin')
-    trainingDataSet.append(data1)
-    trainingDataSet.append(data2)
-    trainingDataSet.append(data3)
+    global threshold
+
+    signal1, samplerate1 = librosa.load('training-data/live_mode_training_audio1.wav')
+    signal2, samplerate2 = librosa.load('training-data/live_mode_training_audio2.wav')
+    signal3, samplerate3 = librosa.load('training-data/live_mode_training_audio3.wav')
+    trainingDataSet.append((signal1, samplerate1))
+    trainingDataSet.append((signal2, samplerate2))
+    trainingDataSet.append((signal3, samplerate3))
+
+    file = open('training-data/live_mode_data')
+    text = file.read()
+    threshold = float(text[text.find('=') + 1:])
+    file.close()
+
+def compareWith(y1, sr1, y2, sr2):
+
+    # Extract MFCCs from the audio files
+    mfccs1 = librosa.feature.mfcc(y=y1, sr=sr1)
+    mfccs2 = librosa.feature.mfcc(y=y2, sr=sr2)
+
+    # Calculate the Euclidean distance between the MFCCs
+    distance = np.linalg.norm(mfccs1 - mfccs2)
+
+    return distance
 
 
-def isCompatible(source, target):
-    slist = list(bytes(source))
-    tlist = list(bytes(target))
-    # start = tlist.index(slist[0])
-    # comparableLength = len(tlist) - start
-    # k = 0
-    matches = 0
-    # for i in range(start, len(target)):
-    #     if slist[k] == tlist[i]:
-    #         matches += 1
-    #     k += 1
-    # cprint(f'{matches}, {comparableLength}', 'blue', attrs=['bold'])
+def compare():
+    y1, sr1 = librosa.load('training-data/live-speech-data.wav')
 
-    counts1 = collections.Counter(slist)
-    counts2 = collections.Counter(tlist)
-    addx1 = []
-    addx2 = []
-    for (k, v) in counts1.items():
-        addx1.append(math.ceil(v / 10) * 10)
-    for (k, v) in counts2.items():
-        addx2.append(math.ceil(v / 10) * 10)
+    d1 = compareWith(y1, sr1, trainingDataSet[0][0], trainingDataSet[0][1])
+    d2 = compareWith(y1, sr1, trainingDataSet[1][0], trainingDataSet[1][1])
+    d3 = compareWith(y1, sr1, trainingDataSet[2][0], trainingDataSet[2][1])
 
-    print(addx2)
+    distance = min(d1, d2, d3)
 
-    for ax in addx1:
-        if ax in addx2:
-            matches += 1
+    print(distance)
 
-    # for (k, v) in counts1.items():
-    #     if math.ceil(counts2[k] / 100) * 100 == math.ceil(v / 100) * 100:
-    #         matches += 1
-    cprint(f'{matches} out of {len(addx1)}', "red", attrs=['bold'])
-    return matches / len(addx1) >= 0.96
-
-
-def compare(frames):
-    target = b''.join(frames)
-    for data in trainingDataSet:
-        if isCompatible(data, target):
-            return True
-    return False
+    return distance <= threshold

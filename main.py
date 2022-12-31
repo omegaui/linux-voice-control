@@ -109,12 +109,32 @@ def main(model='base', ui='false'):
         live_mode_manager.init()
         while True:
             frames = []
+            chunk_array = array('h')
             log("listening ...", "blue", attrs=["bold"])
             for i in range(0, int(44100 / 1024 * 2)):
                 data = stream.read(1024)
                 frames.append(data)  # stacking every audio frame into the list
-            if live_mode_manager.compare(frames):
-                voice_feedback.speak('match test succeeded!', wait=True)
+                chunk_array.extend(array('h', data))
+            chunk_array = trim(chunk_array)
+            if len(chunk_array) == 0:  # clip is empty
+                log('no voice')
+                continue
+            elif max(chunk_array) < SPEECH_THRESHOLD:  # no voice in clip
+                log('no speech in clip')
+                continue
+            log("saving ...")
+
+            # writing the wave file
+            wf = wave.open('training-data/live-speech-data.wav', 'wb')
+            wf.setnchannels(CHANNELS)
+            wf.setsampwidth(pyAudio.get_sample_size(FORMAT))
+            wf.setframerate(RATE)
+            wf.writeframes(b''.join(frames))
+            wf.close()
+
+            log("comparing ...", "blue", attrs=["bold"])
+            if live_mode_manager.compare():
+                voice_feedback.speak('yes sir!', wait=True)
                 exit(0)
             else:
                 voice_feedback.speak('match test failed!', wait=True)

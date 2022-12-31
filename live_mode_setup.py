@@ -106,6 +106,22 @@ while choice in 'yn':
     if choice == '':
         choice = 'y'
 
+def compare(key1, key2):
+    # Load the audio files
+    import librosa
+    y1, sr1 = librosa.load(f'training-data/live_mode_training_audio{key1}.wav')
+    y2, sr2 = librosa.load(f'training-data/live_mode_training_audio{key2}.wav')
+
+    # Extract MFCCs from the audio files
+    mfccs1 = librosa.feature.mfcc(y=y1, sr=sr1)
+    mfccs2 = librosa.feature.mfcc(y=y2, sr=sr2)
+
+    # Calculate the Euclidean distance between the MFCCs
+    import numpy as np
+    distance = np.linalg.norm(mfccs1 - mfccs2)
+
+    return distance
+
 # creating live data file ...
 if chances != 3:
     cprint('Saving Training Data', 'blue', attrs=['bold'])
@@ -123,6 +139,18 @@ if chances != 3:
         wf.setframerate(44100)
         wf.writeframes(frames)
         wf.close()
+
+    cprint('performing some calculations ...', 'blue')
+
+    distance1 = compare(1, 2)
+    distance2 = compare(2, 3)
+    distance3 = compare(3, 1)
+
+    highestPossibleDistance = max(distance1, distance2, distance3)
+
+    file = open(f'training-data/live_mode_data', 'w')
+    file.write(f"max-euclidean-distance={highestPossibleDistance}")
+    file.close()
 
     cprint('Live Mode is all Set!', 'blue', attrs=['bold'])
 else:

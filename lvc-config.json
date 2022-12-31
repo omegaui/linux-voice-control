@@ -8,7 +8,7 @@
   "notifications-enabled": false,
   "logs": true,
   "speech-threshold": 2500,
-  "live-mode": false,
+  "live-mode": true,
   "master-mode": false,
   "master-mode-barrier-speech-enabled": true,
   "master-mode-barrier-speech": "Unauthorized",
