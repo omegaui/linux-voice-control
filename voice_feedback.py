@@ -60,6 +60,8 @@ def _speak_and_save(text, filename):
 
 # voice feedback when a command is executed
 def give_execution_feedback():
+    if len(config_manager.config['voice-feedback-default-speeches']) == 0:
+        return
     if internet:
         speech = speak(random.choice(config_manager.config['voice-feedback-default-speeches']), wait=True)
         if config_manager.config['voice-cache-enabled']:
@@ -84,6 +86,8 @@ def give_exiting_feedback():
 
 # required for live voice control
 def give_transcription_feedback():
+    if len(config_manager.config['voice-feedback-transcription-capable-speeches']) == 0:
+        return
     if config_manager.config['voice-transcription-feedback-enabled']:
         if internet:
             speech = speak(random.choice(config_manager.config['voice-feedback-transcription-capable-speeches']))

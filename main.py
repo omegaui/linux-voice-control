@@ -84,11 +84,6 @@ def main(model='base', ui='false'):
     # initializing command management ...
     command_manager.init()
 
-    log(f'🚀 voice control ready ... listening every {RECORD_SECONDS} seconds', "blue")
-
-    name = config_manager.config['name']
-    log(f'{name} waiting for order ...', "cyan")
-
     # validating master mode ...
     if config_manager.config['master-mode']:
         enabled = os.path.exists('training-data/master-mode')
@@ -108,6 +103,10 @@ def main(model='base', ui='false'):
         voice_feedback.speak("initializing live mode ...", wait=True)
         live_mode_manager.init()
         voice_feedback.speak("say my name to trigger actions ...", wait=True)
+
+        name = config_manager.config['name']
+        log(f'{name} waiting for order ...', "cyan")
+
         while True:
             if os.path.exists('training-data/live-speech-data.wav'):
                 os.remove('training-data/live-speech-data.wav')
@@ -138,7 +137,15 @@ def main(model='base', ui='false'):
             log("comparing ...", "blue", attrs=["bold"])
             if live_mode_manager.compare():
                 voice_feedback.speak('match test succeeded ... listening', wait=True)
-                listen_for_live_mode(stream, audio_model, CHUNK, FORMAT, CHANNELS, RATE, RECORD_SECONDS, WAVE_OUTPUT_FILENAME, SPEECH_THRESHOLD)
+                listen_for_live_mode(stream,
+                                     audio_model,
+                                     CHUNK,
+                                     FORMAT,
+                                     CHANNELS,
+                                     RATE,
+                                     RECORD_SECONDS,
+                                     WAVE_OUTPUT_FILENAME,
+                                     SPEECH_THRESHOLD)
             else:
                 log('live mode: match test failed!', "red", attrs=['bold'])
                 voice_feedback.speak('match test failed!', wait=True)
@@ -146,6 +153,8 @@ def main(model='base', ui='false'):
             frames.clear()
     else:
         # And here begins the manual mode
+        log(f'🚀 voice control ready ... responding every {RECORD_SECONDS} seconds', "blue")
+
         while True:
             frames = []
             chunk_array = array('h')

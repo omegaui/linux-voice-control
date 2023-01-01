@@ -23,7 +23,7 @@ Future<void> launch() async {
     } else if (line.contains("probability:")) {
       try {
         int percentage = int.parse(line
-            .substring(line.lastIndexOf(',') + 1, line.length - 2)
+            .substring(line.lastIndexOf(',') + 1, line.lastIndexOf(')'))
             .trim());
         if (percentage > 60) {
           setTag(ConstantsX.executingTag);
