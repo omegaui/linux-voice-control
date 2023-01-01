@@ -109,6 +109,8 @@ def main(model='base', ui='false'):
         live_mode_manager.init()
         voice_feedback.speak("say my name to trigger actions ...", wait=True)
         while True:
+            if os.path.exists('training-data/live-speech-data.wav'):
+                os.remove('training-data/live-speech-data.wav')
             frames = []
             chunk_array = array('h')
             log("sleeping ...", "blue", attrs=["bold"])
@@ -135,8 +137,7 @@ def main(model='base', ui='false'):
 
             log("comparing ...", "blue", attrs=["bold"])
             if live_mode_manager.compare():
-                voice_feedback.speak('match test succeeded', wait=True)
-                log("listening ...", "blue", attrs=['bold'])
+                voice_feedback.speak('match test succeeded ... listening', wait=True)
                 listen_for_live_mode(stream, audio_model, CHUNK, FORMAT, CHANNELS, RATE, RECORD_SECONDS, WAVE_OUTPUT_FILENAME, SPEECH_THRESHOLD)
             else:
                 log('live mode: match test failed!', "red", attrs=['bold'])

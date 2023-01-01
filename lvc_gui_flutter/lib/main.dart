@@ -43,6 +43,9 @@ Color inferTagColor(){
   else if(tag == ConstantsX.listeningTag) {
     return ThemeX.listeningColor;
   }
+  else if(tag == ConstantsX.sleepingTag) {
+    return ThemeX.sleepingColor;
+  }
   else if(tag == ConstantsX.computingTag) {
     return ThemeX.computingColor;
   }
@@ -55,6 +58,9 @@ String inferTagText(){
   }
   else if(tag == ConstantsX.listeningTag) {
     return "listening...";
+  }
+  else if(tag == ConstantsX.sleepingTag) {
+    return "sleeping...";
   }
   else if(tag == ConstantsX.computingTag) {
     return "computing...";

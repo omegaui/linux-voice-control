@@ -10,6 +10,13 @@ Future<void> launch() async {
     if (line.contains('listening')) {
       setTag(ConstantsX.listeningTag);
       setStatus('linux-voice-control');
+    }
+    else if (line.contains('sleeping')) {
+      setTag(ConstantsX.sleepingTag);
+      setStatus('waiting for hot-word');
+    }
+    else if (line.contains('live mode: match test failed')) {
+      setStatus('match test failed');
     } else if (line.startsWith("saving audio")) {
       setTag(ConstantsX.computingTag);
       setStatus('thinking');

@@ -6,6 +6,7 @@ class ThemeX{
   static Color textColor = Colors.white;
   static Color initializingColor = Colors.blueAccent;
   static Color listeningColor = Colors.greenAccent;
+  static Color sleepingColor = Colors.blue;
   static Color computingColor = Colors.amberAccent;
   static Color executingColor = Colors.cyanAccent;
 }
