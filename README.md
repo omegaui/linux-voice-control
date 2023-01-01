@@ -67,6 +67,8 @@ Speak as much as you can but in your normal tone!
 After Saving the training-data, this program exists **without** actually enabling master control mode.
 
 For enabling master control mode, you need to set this property in **lvc-config.json** to **true**
+OR
+Even you can just say **activate master control mode** during the runtime to enable it dynamically for that session only 😉!
 ```json
 {
   "master-mode": true
