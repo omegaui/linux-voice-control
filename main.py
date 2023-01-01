@@ -28,6 +28,8 @@ except Exception as e:
     print('unable to create training directory')
     exit(1)
 
+# initializing PyAudio ...
+pyAudio = pyaudio.PyAudio()
 
 def log(text, color=None, attrs=None):
     if attrs is None:
@@ -70,9 +72,6 @@ def main(model='base', ui='false'):
     WAVE_OUTPUT_FILENAME = "misc/last-mic-fetch.wav"  # default file which will be overwritten in every RECORD_SECONDS
     SPEECH_THRESHOLD = config_manager.config['speech-threshold']  # speech threshold default 4000 Hz
 
-    # initializing PyAudio ...
-    pyAudio = pyaudio.PyAudio()
-
     # Opening Microphone Stream with above created configuration ...
     stream = pyAudio.open(format=FORMAT,
                           channels=CHANNELS,
@@ -106,11 +105,13 @@ def main(model='base', ui='false'):
     # well, this is under development,
     # I don't recommend activating live mode until it is ready!
     if config_manager.config['live-mode']:
+        voice_feedback.speak("initializing live mode ...", wait=True)
         live_mode_manager.init()
+        voice_feedback.speak("say my name to trigger actions ...", wait=True)
         while True:
             frames = []
             chunk_array = array('h')
-            log("listening ...", "blue", attrs=["bold"])
+            log("sleeping ...", "blue", attrs=["bold"])
             for i in range(0, int(44100 / 1024 * 2)):
                 data = stream.read(1024)
                 frames.append(data)  # stacking every audio frame into the list
@@ -134,9 +135,11 @@ def main(model='base', ui='false'):
 
             log("comparing ...", "blue", attrs=["bold"])
             if live_mode_manager.compare():
-                voice_feedback.speak('yes sir!', wait=True)
-                exit(0)
+                voice_feedback.speak('match test succeeded', wait=True)
+                log("listening ...", "blue", attrs=['bold'])
+                listen_for_live_mode(stream, audio_model, CHUNK, FORMAT, CHANNELS, RATE, RECORD_SECONDS, WAVE_OUTPUT_FILENAME, SPEECH_THRESHOLD)
             else:
+                log('live mode: match test failed!', "red", attrs=['bold'])
                 voice_feedback.speak('match test failed!', wait=True)
 
             frames.clear()
@@ -204,6 +207,58 @@ def analyze_text(text):
     # and here comes the command manager
     # it checks for suitable match of transcribed text against the available commands from the lvc-commands.json file
     command_manager.launch_if_any(text)
+
+
+def listen_for_live_mode(stream, audio_model, chunk, audio_format, channels, rate, record_seconds, wave_output_filename, speech_threshold):
+    frames = []
+    chunk_array = array('h')
+    log("listening ...", "blue", attrs=["bold"])
+    for i in range(0, int(rate / chunk * record_seconds)):
+        data = stream.read(chunk)
+        frames.append(data)  # stacking every audio frame into the list
+        chunk_array.extend(array('h', data))
+    chunk_array = trim(chunk_array)
+    if len(chunk_array) == 0:  # clip is empty
+        log('no voice')
+        return
+    elif max(chunk_array) < speech_threshold:  # no voice in clip
+        log('no speech in clip')
+        return
+    print("saving audio ...")
+
+    # writing the wave file
+    wf = wave.open(wave_output_filename, 'wb')
+    wf.setnchannels(channels)
+    wf.setsampwidth(pyAudio.get_sample_size(audio_format))
+    wf.setframerate(rate)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+
+    # checking if master control mode is enabled
+    # and performing audio analysis if enabled
+    if config_manager.config['master-mode']:
+        log('performing master mode analysis ...', "green", attrs=['bold'])
+        if not isMasterSpeaking():
+            log('performing master mode analysis ... failed', "red", attrs=['bold'])
+            if config_manager.config['master-mode-barrier-speech-enabled']:
+                voice_feedback.speak(config_manager.config['master-mode-barrier-speech'], wait=True)
+            return
+        log('performing master mode analysis ... succeeded', "green", attrs=['bold'])
+    voice_feedback.give_transcription_feedback()
+    log("transcribing audio data ...")
+    # transcribing audio ...
+    # fp16 isn't supported on every CPU using,
+    # fp32 by default.
+    result = audio_model.transcribe(wave_output_filename, fp16=False, language='english')
+
+    log("analyzing results ...", "magenta", attrs=["bold"])
+    # analyzing results ...
+    analyze_text(result["text"].lower().strip())
+
+    frames.clear()
+
+
+
 
 
 # spawning the process

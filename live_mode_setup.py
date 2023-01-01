@@ -129,10 +129,6 @@ if chances != 3:
     for key in training_data_set:
         frames = b''.join(training_data_set[key])
 
-        file = open(f'training-data/live_mode_training_data{key}.bin', 'wb')
-        file.write(frames)
-        file.close()
-
         wf = wave.open(f'training-data/live_mode_training_audio{key}.wav', 'wb')
         wf.setnchannels(2)
         wf.setsampwidth(pyAudio.get_sample_size(pyaudio.paInt16))

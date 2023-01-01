@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/linux-voice-control.iml" filepath="$PROJECT_DIR$/.idea/linux-voice-control.iml" />
       <module fileurl="file://$PROJECT_DIR$/lvc_gui_flutter/lvc_gui_flutter.iml" filepath="$PROJECT_DIR$/lvc_gui_flutter/lvc_gui_flutter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lvc_gui_flutter/android/lvc_gui_flutter_android.iml" filepath="$PROJECT_DIR$/lvc_gui_flutter/android/lvc_gui_flutter_android.iml" />
     </modules>
   </component>
 </project>

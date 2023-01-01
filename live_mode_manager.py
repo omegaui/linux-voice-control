@@ -4,6 +4,7 @@ import librosa
 import numpy as np
 import soundfile
 
+
 threshold = []
 trainingDataSet = []
 
@@ -51,3 +52,4 @@ def compare():
     print(distance)
 
     return distance <= threshold
+

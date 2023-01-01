@@ -16,6 +16,7 @@ Future<void> main() async {
     appWindow.minSize = initialSize;
     appWindow.size = initialSize;
     appWindow.alignment = Alignment.center;
+    appWindow.position = Offset(200, 200);
     appWindow.show();
   });
 
