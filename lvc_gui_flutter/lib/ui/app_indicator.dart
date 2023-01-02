@@ -27,7 +27,7 @@ class AppIndicator extends StatelessWidget{
             width: 20,
             height: 20,
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: masterMode ? Colors.red : Colors.green,
               borderRadius: BorderRadius.circular(10),
             ),
           ) : Container(

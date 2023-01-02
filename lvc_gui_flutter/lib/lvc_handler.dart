@@ -7,15 +7,17 @@ import 'package:lvc_gui_flutter/main.dart';
 Future<void> launch() async {
   Process process = await Process.start('linux-voice-control', ['--ui=true']);
   process.stderr.transform(utf8.decoder).forEach((line) {
-    if (line.contains('listening')) {
+    if (line.contains('MASTER CONTROL MODE: ON')) {
+      masterMode = true;
+    } else if (line.contains('MASTER CONTROL MODE: OFF')) {
+      masterMode = false;
+    } else if (line.contains('listening')) {
       setTag(ConstantsX.listeningTag);
       setStatus('linux-voice-control');
-    }
-    else if (line.contains('sleeping')) {
+    } else if (line.contains('sleeping')) {
       setTag(ConstantsX.sleepingTag);
       setStatus('waiting for hot-word');
-    }
-    else if (line.contains('live mode: match test failed')) {
+    } else if (line.contains('live mode: match test failed')) {
       setStatus('match test failed');
     } else if (line.startsWith("saving audio")) {
       setTag(ConstantsX.computingTag);

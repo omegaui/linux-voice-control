@@ -100,6 +100,7 @@ def check_for_built_in_actions(text):
             return True
         config_manager.config['master-mode'] = True
         self_activated_master_mode = True
+        cprint(f'MASTER CONTROL MODE: ON', "blue", attrs=['bold'])
         speak('Activated Master Control Mode', wait=True)
         return True
     elif hasText(text, deactivateMasterModeCommand):
@@ -108,6 +109,7 @@ def check_for_built_in_actions(text):
             return True
         config_manager.config['master-mode'] = False
         self_activated_master_mode = False
+        cprint(f'MASTER CONTROL MODE: OFF', "blue", attrs=['bold'])
         speak('Deactivated Master Control Mode', wait=True)
         return True
     return False

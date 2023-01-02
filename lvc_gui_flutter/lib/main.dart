@@ -16,13 +16,13 @@ Future<void> main() async {
     appWindow.minSize = initialSize;
     appWindow.size = initialSize;
     appWindow.alignment = Alignment.center;
-    appWindow.position = Offset(200, 200);
     appWindow.show();
   });
 
   await launch();
 }
 
+var masterMode = false;
 var tag = ConstantsX.initializingTag;
 var status = "linux-voice-control";
 
@@ -41,7 +41,7 @@ Color inferTagColor(){
     return ThemeX.initializingColor;
   }
   else if(tag == ConstantsX.listeningTag) {
-    return ThemeX.listeningColor;
+    return masterMode ? ThemeX.aggressiveListeningColor : ThemeX.listeningColor;
   }
   else if(tag == ConstantsX.sleepingTag) {
     return ThemeX.sleepingColor;

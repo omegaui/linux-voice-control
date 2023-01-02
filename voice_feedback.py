@@ -83,6 +83,17 @@ def give_exiting_feedback():
         player.play('misc/exiting-feedback.mp3')
         player.wait_for_playback()
 
+# voice feedback when initializing live mode
+def give_live_mode_feedback():
+    if internet:
+        speech = speak("initializing live mode ...", wait=True)
+        if config_manager.config['voice-cache-enabled']:
+            speech.save('misc/live_mode-feedback.mp3')
+    elif os.path.exists('misc/live_mode-feedback.mp3'):
+        player.speed = config_manager.config['voice-feedback-speed']
+        player.play('misc/live_mode-feedback.mp3')
+        player.wait_for_playback()
+
 
 # required for live voice control
 def give_transcription_feedback():

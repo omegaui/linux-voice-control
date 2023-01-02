@@ -2,17 +2,15 @@
 
 import librosa
 import numpy as np
-import soundfile
 
+# stores the maximum euclidean distance among live mode samples
+threshold = -1
 
-threshold = []
+# stores the data and the samplerate of the live mode samples
+# e.g: [(y1, sr1), ...]
 trainingDataSet = []
 
-
-def readfile(filename):
-    return soundfile.read(filename)
-
-
+# reads and stores live mode samples and threshold
 def init():
     global threshold
 
@@ -28,6 +26,7 @@ def init():
     threshold = float(text[text.find('=') + 1:])
     file.close()
 
+# compares two mfccs and return the euclidean distance between them
 def compareWith(y1, sr1, y2, sr2):
 
     # Extract MFCCs from the audio files
@@ -40,6 +39,8 @@ def compareWith(y1, sr1, y2, sr2):
     return distance
 
 
+# compares the speech with live samples to find the minimum closest relative
+# return True if speech matches with any of the live samples
 def compare():
     y1, sr1 = librosa.load('training-data/live-speech-data.wav')
 

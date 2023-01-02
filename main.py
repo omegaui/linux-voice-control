@@ -5,6 +5,7 @@
 # license: GNU GPL v3
 import os
 import sys
+import time
 import wave
 from array import array
 from os.path import exists
@@ -100,9 +101,8 @@ def main(model='base', ui='false'):
     # well, this is under development,
     # I don't recommend activating live mode until it is ready!
     if config_manager.config['live-mode']:
-        voice_feedback.speak("initializing live mode ...", wait=True)
+        voice_feedback.give_live_mode_feedback()
         live_mode_manager.init()
-        voice_feedback.speak("say my name to trigger actions ...", wait=True)
 
         name = config_manager.config['name']
         log(f'{name} waiting for order ...', "cyan")
@@ -136,7 +136,7 @@ def main(model='base', ui='false'):
 
             log("comparing ...", "blue", attrs=["bold"])
             if live_mode_manager.compare():
-                voice_feedback.speak('match test succeeded ... listening', wait=True)
+                voice_feedback.speak('listening', wait=True)
                 listen_for_live_mode(stream,
                                      audio_model,
                                      CHUNK,
@@ -148,7 +148,7 @@ def main(model='base', ui='false'):
                                      SPEECH_THRESHOLD)
             else:
                 log('live mode: match test failed!', "red", attrs=['bold'])
-                voice_feedback.speak('match test failed!', wait=True)
+                time.sleep(0.5)
 
             frames.clear()
     else:
