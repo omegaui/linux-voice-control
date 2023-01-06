@@ -1,8 +1,32 @@
 {
-  "open firefox": "firefox",
-  "open editor": "gedit",
-  "lock the screen": "xdg-screensaver lock",
-  "open whatsapp": "firefox https://web.whatsapp.com",
-  "open instagram": "firefox https://instagram.com",
-  "write an email": "firefox https://mail.google.com/mail/u/0/#inbox"
+  "open firefox": {
+    "exec": "firefox",
+    "feedback": "starting firefox",
+    "blocking": true
+  },
+  "open editor": {
+    "exec": "gedit",
+    "feedback": "launching editor",
+    "blocking": true
+  },
+  "lock the screen": {
+    "exec": "xdg-screensaver lock",
+    "feedback": "locked",
+    "blocking": false
+  },
+  "open whatsapp": {
+    "exec": "firefox https://web.whatsapp.com",
+    "feedback": "opening whatsapp",
+    "blocking": true
+  },
+  "open instagram": {
+    "exec": "firefox https://instagram.com",
+    "feedback": "opening instagram",
+    "blocking": true
+  },
+  "write an email": {
+    "exec": "firefox https://mail.google.com/mail/u/0/#inbox",
+    "feedback": "opening G Mail",
+    "blocking": true
+  }
 }

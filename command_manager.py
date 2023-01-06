@@ -61,9 +61,15 @@ def launch_if_any(text):
     print("probability:", probability)
 
     if probability and is_text_prediction_applicable(text, probability[0]):
-        command = commands[probability[0]]
+        try:
+            command = commands[probability[0]]['exec']
+        except TypeError:
+            command = commands[probability[0]]
         if not check_for_built_in_actions(probability[0]):
-            give_execution_feedback()
+            if commands[probability[0]]['feedback']:
+                speak(commands[probability[0]]['feedback'], commands[probability[0]]['blocking'])
+            else:
+                give_execution_feedback()
             cprint(f'>>> executing: {command}', "green", attrs=["bold"])
             notify(f'Executing: {command}', 250)
             subprocess.Popen(shlex.split(command), start_new_session=True)  # using subprocess will easily detach it

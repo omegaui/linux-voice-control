@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lvc_gui_flutter/constantsx.dart';
 import 'package:lvc_gui_flutter/main.dart';
 
-class AppIndicator extends StatelessWidget{
+class AppIndicator extends StatelessWidget {
   const AppIndicator({super.key});
 
   @override
