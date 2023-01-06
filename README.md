@@ -121,14 +121,41 @@ That's how your `lvc-config.json` look initially ...
 <div align="center"><strong>lvc-config.json</strong></div>
 
 Let's take a look at the game controller ... `lvc-commands.json`
+here, blocking property means that whether the feedback must go on simultaneously with command execution (if set to false) 
+or it should first complete the voice feedback then execute the command (if set to true).
+
 ```json
 {
-  "open firefox": "firefox",
-  "open editor": "gedit",
-  "lock the screen": "xdg-screensaver lock",
-  "open whatsapp": "firefox https://web.whatsapp.com",
-  "open instagram": "firefox https://instagram.com",
-  "write an email": "firefox https://mail.google.com/mail/u/0/#inbox"
+  "open firefox": {
+    "exec": "firefox",
+    "feedback": "starting firefox",
+    "blocking": true
+  },
+  "open editor": {
+    "exec": "gedit",
+    "feedback": "launching editor",
+    "blocking": true
+  },
+  "lock the screen": {
+    "exec": "xdg-screensaver lock",
+    "feedback": "locked",
+    "blocking": false
+  },
+  "open whatsapp": {
+    "exec": "firefox https://web.whatsapp.com",
+    "feedback": "opening whatsapp",
+    "blocking": true
+  },
+  "open instagram": {
+    "exec": "firefox https://instagram.com",
+    "feedback": "opening instagram",
+    "blocking": true
+  },
+  "write an email": {
+    "exec": "firefox https://mail.google.com/mail/u/0/#inbox",
+    "feedback": "opening G Mail",
+    "blocking": true
+  }
 }
 ```
 <div align="center"><strong>lvc-commands.json</strong></div> 
@@ -174,19 +201,8 @@ python3 main.py
 
 # ![](https://img.icons8.com/external-flat-geotatah/32/000000/external-expand-startups-flat-flat-geotatah.png) Extending Usage
 
-```json
-{
-  "open firefox": "firefox",
-  "open editor": "gedit",
-  "lock the screen": "xdg-screensaver lock",
-  "open whatsapp": "firefox https://web.whatsapp.com",
-  "open instagram": "firefox https://instagram.com",
-  "write an email": "firefox https://mail.google.com/mail/u/0/#inbox"
-}
-```
-<div align="center"><strong>lvc-commands.json</strong></div> 
 
-The values here seem just like single commands running when matching key is triggered.
+The values in `lvc-commands.json` seem just like single commands running when matching key is triggered.
 
 But wait ... it doesn't ends here.
 
@@ -196,7 +212,9 @@ perform some other complex task.
 ### Example
 ```json
 {
-  "its time to rock": "/usr/bin/setup-spotify-chill-mode"
+  "its time to rock": {
+    "exec": "/usr/bin/setup-spotify-chill-mode"
+  }
 }
 ```
 <div align="center">A new entry in <strong>lvc-commands.json</strong></div> 
