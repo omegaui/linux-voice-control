@@ -28,5 +28,15 @@
     "exec": "firefox https://mail.google.com/mail/u/0/#inbox",
     "feedback": "opening G Mail",
     "blocking": true
+  },
+  "open rive": {
+    "exec": "firefox https://editor.rive.app/",
+    "feedback": "opening rive",
+    "blocking": false
+  },
+  "open figma": {
+    "exec": "firefox https://figma.com",
+    "feedback": "opening figma",
+    "blocking": false
   }
 }
