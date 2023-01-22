@@ -1,11 +1,12 @@
 {
   "name": "alex",
-  "greeting": "Hello Boss!",
+  "greeting": "Initializing voice control...",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,
   "chunk-size": 1024,
   "notifications-enabled": false,
+  "show-commands-on-startup": true,
   "logs": true,
   "speech-threshold": 2500,
   "live-mode": false,

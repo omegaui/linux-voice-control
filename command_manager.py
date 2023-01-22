@@ -131,7 +131,8 @@ def hasText(source, text):
 
 # lists all the available commands to the console
 def show_commands():
-    print(">>> Available Commands")
-    for launcher in commands:
-        print(launcher, ":", commands[launcher])
-    print()
+    if config_manager.config['show-commands-on-startup']:
+        print(">>> Available Commands")
+        for launcher in commands:
+            print(launcher, ":", commands[launcher])
+        print()
