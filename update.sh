@@ -14,6 +14,7 @@ cp __init__.py ~/lvc-bin
 cp notifier.py ~/lvc-bin
 cp voice_feedback.py ~/lvc-bin
 cp utils.py ~/lvc-bin
+cp chatgpt_port.py ~/lvc-bin
 cp basic_mode_manager.py ~/lvc-bin
 cp live_mode_manager.py ~/lvc-bin
 cp live_mode_setup.py ~/lvc-bin

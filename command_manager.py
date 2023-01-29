@@ -25,9 +25,12 @@ commands = dict()
 quitCommand = "see you later"  # say this to turn off your voice control engine
 activateMasterModeCommand = "activate master control mode"  # say this to turn on master control mode
 deactivateMasterModeCommand = "deactivate master control mode"  # say this turn off master control mode
+activateChatMode = "activate chat mode"  # say this turn off master control mode
+deactivateChatMode = "deactivate chat mode"  # say this turn off master control mode
 
 # internal-vars
 self_activated_master_mode = False  # used for notifying the user if master control mode was enabled implicitly
+chatMode = False  # used for working in chatGPT mode
 
 # stores all the keys in commands dictionary to be extracted by Fuzzy Matcher
 choices = []
@@ -42,6 +45,8 @@ def init():
     commands[f'see you later {name}'] = "<built-in>"
     commands[activateMasterModeCommand] = "<built-in>"
     commands[deactivateMasterModeCommand] = "<built-in>"
+    commands[activateChatMode] = "<built-in>"
+    commands[deactivateChatMode] = "<built-in>"
 
     choices = list(commands.keys())
     show_commands()
@@ -90,7 +95,7 @@ def is_text_prediction_applicable(text, predicted_text):
 # before diving further, we perform a check for in-built actions here
 # @returns: True if an implicit action is invoked
 def check_for_built_in_actions(text):
-    global self_activated_master_mode
+    global self_activated_master_mode, chatMode
     if text.startswith(quitCommand):
         give_execution_feedback()
         if self_activated_master_mode:
@@ -117,6 +122,10 @@ def check_for_built_in_actions(text):
         self_activated_master_mode = False
         cprint(f'MASTER CONTROL MODE: OFF', "blue", attrs=['bold'])
         speak('Deactivated Master Control Mode', wait=True)
+        return True
+    elif hasText(text, activateChatMode):
+        speak('activating chatgpt mode', wait=True)
+        chatMode = True
         return True
     return False
 

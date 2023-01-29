@@ -2,6 +2,8 @@
 
 echo "pip installing requirements.txt ..."
 pip install -r requirements.txt
+playwright install firefox
+echo "You need to login into ChatGPT to use chat mode, to do so run <chatgpt install>."
 echo "Settings up Linux-Voice-Control (lvc) ..."
 mkdir ~/lvc-bin
 mkdir ~/lvc-bin/misc
@@ -14,6 +16,7 @@ cp __init__.py ~/lvc-bin
 cp notifier.py ~/lvc-bin
 cp voice_feedback.py ~/lvc-bin
 cp utils.py ~/lvc-bin
+cp chatgpt_port.py ~/lvc-bin
 cp basic_mode_manager.py ~/lvc-bin
 cp live_mode_manager.py ~/lvc-bin
 cp live_mode_setup.py ~/lvc-bin

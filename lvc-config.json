@@ -10,7 +10,7 @@
   "logs": true,
   "speech-threshold": 2500,
   "live-mode": false,
-  "use-hot-word-in-basic-mode": true,
+  "use-hot-word-in-basic-mode": false,
   "hot-words": [
     "hey alex",
     "here alex",

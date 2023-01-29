@@ -24,6 +24,7 @@
 </div>
 
 # ![](https://img.icons8.com/color/48/null/metallic-paint.png) Features
+- [x] [**ChatGPT Mode**](https://github.com/omegaui/linux-voice-control/issues/8) (just say **activate chat mode**)
 - [x] GUI Mode (using Flutter)
 - [x] Master Control Mode (yeah, it's your Jarvis Now)
 - [x] Voice Feedback 
@@ -91,31 +92,36 @@ That's how your `lvc-config.json` look initially ...
 ```json
 {
   "name": "alex",
-  "greeting": "Starting Voice Control Engine",
+  "greeting": "Greetings!",
   "record-duration": 3,
   "channels": 2,
   "rate": 44100,
   "chunk-size": 1024,
   "notifications-enabled": false,
+  "show-commands-on-startup": true,
   "logs": true,
-  "speech-threshold": 3000,
+  "speech-threshold": 2500,
   "live-mode": false,
+  "use-hot-word-in-basic-mode": false,
+  "hot-words": [
+    "hey alex",
+    "here alex",
+    "listen alex"
+  ],
   "master-mode": false,
   "master-mode-barrier-speech-enabled": true,
-  "master-mode-barrier-speech": "Sorry! Master mode is enabled, I cannot process your request!",
+  "master-mode-barrier-speech": "Unauthorized",
+  "voice-pitch": 1.0,
   "voice-feedback-enabled": true,
-  "voice-transcription-feedback-enabled": true,
-  "voice-feedback-speed": 1.25,
-  "voice-feedback-default-speeches": [
-    "got it",
-    "on its way",
-    "processing ..."
-  ],
+  "voice-transcription-feedback-enabled": false,
+  "voice-feedback-speed": 1.35,
+  "voice-cache-enabled": true,
+  "voice-feedback-default-speeches": [],
   "voice-feedback-transcription-capable-speeches": [
     "transcribing...",
     "getting it..."
   ],
-  "voice-feedback-turning-off": "Turning off linux voice control, See you later!"
+  "voice-feedback-turning-off": "Turning off linux voice control!"
 }
 ```
 <div align="center"><strong>lvc-config.json</strong></div>

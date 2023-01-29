@@ -16,6 +16,7 @@ import whisper
 from termcolor import cprint
 
 import basic_mode_manager
+import chatgpt_port
 import command_manager
 import config_manager
 import live_mode_manager
@@ -52,6 +53,7 @@ def main(model='base', ui='false'):
     the main function ... everything begins from here :param model: default model used is "base" from the available
     models in whisper ["tiny", "base", "small", "medium", "large"]
     """
+
     if ui == 'true':
         sys.stdout = sys.stderr
 
@@ -250,9 +252,13 @@ def main(model='base', ui='false'):
                 # fp32 by default.
                 result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False, language='english')
 
+                text = result["text"].lower().strip()
                 log("analyzing results ...", "magenta", attrs=["bold"])
                 # analyzing results ...
-                analyze_text(result["text"].lower().strip())
+                if command_manager.chatMode:
+                    chatgpt_port.chat(text)
+                else:
+                    analyze_text(text)
 
                 frames.clear()
 
@@ -313,15 +319,15 @@ def listen_again(stream, audio_model, chunk, audio_format, channels, rate, recor
     # fp16 isn't supported on every CPU using,
     # fp32 by default.
     result = audio_model.transcribe(wave_output_filename, fp16=False, language='english')
-
+    text = result["text"].lower().strip()
     log("analyzing results ...", "magenta", attrs=["bold"])
     # analyzing results ...
-    analyze_text(result["text"].lower().strip())
+    if command_manager.chatMode:
+        chatgpt_port.chat(text)
+    else:
+        analyze_text(text)
 
     frames.clear()
-
-
-
 
 
 # spawning the process
