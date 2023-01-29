@@ -15,6 +15,7 @@ import pyaudio
 import whisper
 from termcolor import cprint
 
+import basic_mode_manager
 import command_manager
 import config_manager
 import live_mode_manager
@@ -137,15 +138,15 @@ def main(model='base', ui='false'):
             log("comparing ...", "blue", attrs=["bold"])
             if live_mode_manager.compare():
                 voice_feedback.speak('listening', wait=True)
-                listen_for_live_mode(stream,
-                                     audio_model,
-                                     CHUNK,
-                                     FORMAT,
-                                     CHANNELS,
-                                     RATE,
-                                     RECORD_SECONDS,
-                                     WAVE_OUTPUT_FILENAME,
-                                     SPEECH_THRESHOLD)
+                listen_again(stream,
+                             audio_model,
+                             CHUNK,
+                             FORMAT,
+                             CHANNELS,
+                             RATE,
+                             RECORD_SECONDS,
+                             WAVE_OUTPUT_FILENAME,
+                             SPEECH_THRESHOLD)
             else:
                 log('live mode: match test failed!', "red", attrs=['bold'])
                 time.sleep(0.5)
@@ -154,54 +155,106 @@ def main(model='base', ui='false'):
     else:
         # And here begins the manual mode
         log(f'🚀 voice control ready ... responding every {RECORD_SECONDS} seconds', "blue")
-
-        while True:
-            frames = []
-            chunk_array = array('h')
-            log("listening ...", "blue", attrs=["bold"])
-            for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-                data = stream.read(CHUNK)
-                frames.append(data)  # stacking every audio frame into the list
-                chunk_array.extend(array('h', data))
-            chunk_array = trim(chunk_array)
-            if len(chunk_array) == 0:  # clip is empty
-                log('no voice')
-                continue
-            elif max(chunk_array) < SPEECH_THRESHOLD:  # no voice in clip
-                log('no speech in clip')
-                continue
-            print("saving audio ...")
-
-            # writing the wave file
-            wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-            wf.setnchannels(CHANNELS)
-            wf.setsampwidth(pyAudio.get_sample_size(FORMAT))
-            wf.setframerate(RATE)
-            wf.writeframes(b''.join(frames))
-            wf.close()
-
-            # checking if master control mode is enabled
-            # and performing audio analysis if enabled
-            if config_manager.config['master-mode']:
-                log('performing master mode analysis ...', "green", attrs=['bold'])
-                if not isMasterSpeaking():
-                    log('performing master mode analysis ... failed', "red", attrs=['bold'])
-                    if config_manager.config['master-mode-barrier-speech-enabled']:
-                        voice_feedback.speak(config_manager.config['master-mode-barrier-speech'], wait=True)
+        if config_manager.config['use-hot-word-in-basic-mode']:
+            while True:
+                frames = []
+                chunk_array = array('h')
+                log("sleeping ...", "blue", attrs=["bold"])
+                for i in range(0, int(44100 / 1024 * 2)):
+                    data = stream.read(1024)
+                    frames.append(data)  # stacking every audio frame into the list
+                    chunk_array.extend(array('h', data))
+                chunk_array = trim(chunk_array)
+                if len(chunk_array) == 0:  # clip is empty
+                    log('no voice')
                     continue
-                log('performing master mode analysis ... succeeded', "green", attrs=['bold'])
-            voice_feedback.give_transcription_feedback()
-            log("transcribing audio data ...")
-            # transcribing audio ...
-            # fp16 isn't supported on every CPU using,
-            # fp32 by default.
-            result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False, language='english')
+                elif max(chunk_array) < SPEECH_THRESHOLD:  # no voice in clip
+                    log('no speech in clip')
+                    continue
+                log("saving ...")
 
-            log("analyzing results ...", "magenta", attrs=["bold"])
-            # analyzing results ...
-            analyze_text(result["text"].lower().strip())
+                # writing the wave file
+                wf = wave.open('training-data/live-speech-data.wav', 'wb')
+                wf.setnchannels(CHANNELS)
+                wf.setsampwidth(pyAudio.get_sample_size(FORMAT))
+                wf.setframerate(RATE)
+                wf.writeframes(b''.join(frames))
+                wf.close()
 
-            frames.clear()
+                log("comparing ...", "blue", attrs=["bold"])
+
+                log("transcribing audio data ...")
+                # transcribing audio ...
+                # fp16 isn't supported on every CPU using,
+                # fp32 by default.
+                result = audio_model.transcribe('training-data/live-speech-data.wav', fp16=False, language='english')
+                # analyzing results ...
+                text = result["text"].lower().strip()
+                if basic_mode_manager.compare(text):
+                    log("listening ...", "magenta", attrs=["bold"])
+                    voice_feedback.speak('listening', wait=True)
+                    listen_again(stream,
+                                 audio_model,
+                                 CHUNK,
+                                 FORMAT,
+                                 CHANNELS,
+                                 RATE,
+                                 RECORD_SECONDS,
+                                 WAVE_OUTPUT_FILENAME,
+                                 SPEECH_THRESHOLD)
+                else:
+                    log('live mode: match test failed!', "red", attrs=['bold'])
+                    time.sleep(0.5)
+
+                frames.clear()
+        else:
+            while True:
+                frames = []
+                chunk_array = array('h')
+                log("listening ...", "blue", attrs=["bold"])
+                for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+                    data = stream.read(CHUNK)
+                    frames.append(data)  # stacking every audio frame into the list
+                    chunk_array.extend(array('h', data))
+                chunk_array = trim(chunk_array)
+                if len(chunk_array) == 0:  # clip is empty
+                    log('no voice')
+                    continue
+                elif max(chunk_array) < SPEECH_THRESHOLD:  # no voice in clip
+                    log('no speech in clip')
+                    continue
+                print("saving audio ...")
+
+                # writing the wave file
+                wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+                wf.setnchannels(CHANNELS)
+                wf.setsampwidth(pyAudio.get_sample_size(FORMAT))
+                wf.setframerate(RATE)
+                wf.writeframes(b''.join(frames))
+                wf.close()
+
+                # checking if master control mode is enabled
+                # and performing audio analysis if enabled
+                if config_manager.config['master-mode']:
+                    log('performing master mode analysis ...', "green", attrs=['bold'])
+                    if not isMasterSpeaking():
+                        log('performing master mode analysis ... failed', "red", attrs=['bold'])
+                        if config_manager.config['master-mode-barrier-speech-enabled']:
+                            voice_feedback.speak(config_manager.config['master-mode-barrier-speech'], wait=True)
+                        continue
+                    log('performing master mode analysis ... succeeded', "green", attrs=['bold'])
+                voice_feedback.give_transcription_feedback()
+                log("transcribing audio data ...")
+                # transcribing audio ...
+                # fp16 isn't supported on every CPU using,
+                # fp32 by default.
+                result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False, language='english')
+
+                log("analyzing results ...", "magenta", attrs=["bold"])
+                # analyzing results ...
+                analyze_text(result["text"].lower().strip())
+
+                frames.clear()
 
 
 def analyze_text(text):
@@ -219,7 +272,7 @@ def analyze_text(text):
     command_manager.launch_if_any(text)
 
 
-def listen_for_live_mode(stream, audio_model, chunk, audio_format, channels, rate, record_seconds, wave_output_filename, speech_threshold):
+def listen_again(stream, audio_model, chunk, audio_format, channels, rate, record_seconds, wave_output_filename, speech_threshold):
     frames = []
     chunk_array = array('h')
     log("listening ...", "blue", attrs=["bold"])

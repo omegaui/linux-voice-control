@@ -9,7 +9,13 @@
   "show-commands-on-startup": true,
   "logs": true,
   "speech-threshold": 2500,
-  "live-mode": true,
+  "live-mode": false,
+  "use-hot-word-in-basic-mode": true,
+  "hot-words": [
+    "hey alex",
+    "here alex",
+    "listen alex"
+  ],
   "master-mode": false,
   "master-mode-barrier-speech-enabled": true,
   "master-mode-barrier-speech": "Unauthorized",
