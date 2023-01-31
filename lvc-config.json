@@ -8,9 +8,9 @@
   "notifications-enabled": false,
   "show-commands-on-startup": true,
   "logs": true,
-  "speech-threshold": 2500,
-  "live-mode": false,
-  "use-hot-word-in-basic-mode": false,
+  "speech-threshold": 3000,
+  "live-mode": true,
+  "use-hot-word-in-basic-mode": true,
   "hot-words": [
     "hey alex",
     "here alex",

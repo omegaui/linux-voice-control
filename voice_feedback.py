@@ -106,7 +106,7 @@ def give_exiting_feedback():
 def give_live_mode_feedback():
     global wroteLiveModeSpeech
     if internet and not wroteLiveModeSpeech:
-        speech = speak("sleeping in the background ...", wait=False)
+        speech = speak("voice control is running in live mode.", wait=False)
         if config_manager.config['voice-cache-enabled']:
             speech.save('misc/live_mode-feedback.mp3')
             wroteLiveModeSpeech = True

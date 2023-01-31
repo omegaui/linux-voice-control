@@ -7,6 +7,7 @@
 
 import librosa
 import numpy as np
+from termcolor import cprint
 
 # stores the maximum euclidean distance among live mode samples
 threshold = -1
@@ -19,6 +20,8 @@ trainingDataSet = []
 def init():
     global threshold
 
+    cprint(f'Initializing Live Mode ...', 'green', attrs=['bold'])
+
     signal1, samplerate1 = librosa.load('training-data/live_mode_training_audio1.wav')
     signal2, samplerate2 = librosa.load('training-data/live_mode_training_audio2.wav')
     signal3, samplerate3 = librosa.load('training-data/live_mode_training_audio3.wav')
@@ -30,6 +33,8 @@ def init():
     text = file.read()
     threshold = float(text[text.find('=') + 1:])
     file.close()
+
+    cprint(f'Initializing Live Mode ... Done!', 'green', attrs=['bold'])
 
 # compares two mfccs and return the euclidean distance between them
 def compareWith(y1, sr1, y2, sr2):
@@ -55,7 +60,7 @@ def compare():
 
     distance = min(d1, d2, d3)
 
-    print(distance)
+    cprint(f'Minimum Euclidean distance: {distance}, Accurate: {distance <= threshold}', 'cyan', attrs=['bold'])
 
     return distance <= threshold
 
