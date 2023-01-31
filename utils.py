@@ -1,3 +1,7 @@
+# audio data utilities
+# author: @omegaui
+# github: https://github.com/omegaui/linux-voice-control
+# license: GNU GPL v3
 
 from array import array
 

@@ -29,6 +29,7 @@ try:
         os.mkdir('misc')
 except Exception as e:
     print('unable to create training directory')
+    print(e)
     exit(1)
 
 # initializing PyAudio ...

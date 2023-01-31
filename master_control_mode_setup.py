@@ -1,6 +1,11 @@
 # run this script to set up master control mode
 # you will be asked to speak three times (given only a second)
 # speak as much as you can, in your normal tone
+# author: @omegaui
+# github: https://github.com/omegaui/linux-voice-control
+# license: GNU GPL v3
+
+
 import os
 import wave
 from array import array

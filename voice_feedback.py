@@ -1,3 +1,8 @@
+# uses gTTS to provide voice feedback
+# author: @omegaui
+# github: https://github.com/omegaui/linux-voice-control
+# license: GNU GPL v3
+
 import os.path
 import random
 import sys

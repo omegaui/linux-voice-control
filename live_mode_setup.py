@@ -1,4 +1,9 @@
 # under development
+# run this file to setup live mode
+# author: @omegaui
+# github: https://github.com/omegaui/linux-voice-control
+# license: GNU GPL v3
+
 import os
 import wave
 from array import array

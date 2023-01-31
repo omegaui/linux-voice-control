@@ -1,4 +1,9 @@
 # under development
+# live mode manager
+# author: @omegaui
+# github: https://github.com/omegaui/linux-voice-control
+# license: GNU GPL v3
+
 
 import librosa
 import numpy as np
