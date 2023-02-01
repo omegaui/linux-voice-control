@@ -177,22 +177,21 @@ def main(model='base', ui='false'):
                 log("saving ...")
 
                 # writing the wave file
-                wf = wave.open('training-data/live-speech-data.wav', 'wb')
+                wf = wave.open('training-data/hot-word-data.wav', 'wb')
                 wf.setnchannels(CHANNELS)
                 wf.setsampwidth(pyAudio.get_sample_size(FORMAT))
                 wf.setframerate(RATE)
                 wf.writeframes(b''.join(frames))
                 wf.close()
 
-                log("comparing ...", "blue", attrs=["bold"])
-
                 log("transcribing audio data ...")
                 # transcribing audio ...
                 # fp16 isn't supported on every CPU using,
                 # fp32 by default.
-                result = audio_model.transcribe('training-data/live-speech-data.wav', fp16=False, language='english')
+                result = audio_model.transcribe('training-data/hot-word-data.wav', fp16=False, language='english')
                 # analyzing results ...
                 text = result["text"].lower().strip()
+                text = "".join([ch for ch in text if ch.isalpha() or ch.isdigit() or ch == ' ']).lower()
                 if basic_mode_manager.compare(text):
                     log("listening ...", "magenta", attrs=["bold"])
                     voice_feedback.speak('listening', wait=True)
@@ -254,6 +253,7 @@ def main(model='base', ui='false'):
                 result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False, language='english')
 
                 text = result["text"].lower().strip()
+                text = "".join([ch for ch in text if ch.isalpha() or ch.isdigit() or ch == ' ']).lower()
                 log("analyzing results ...", "magenta", attrs=["bold"])
                 # analyzing results ...
                 if command_manager.chatMode:
@@ -321,6 +321,7 @@ def listen_again(stream, audio_model, chunk, audio_format, channels, rate, recor
     # fp32 by default.
     result = audio_model.transcribe(wave_output_filename, fp16=False, language='english')
     text = result["text"].lower().strip()
+    text = "".join([ch for ch in text if ch.isalpha() or ch.isdigit() or ch == ' ']).lower()
     log("analyzing results ...", "magenta", attrs=["bold"])
     # analyzing results ...
     if command_manager.chatMode:

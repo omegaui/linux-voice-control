@@ -39,7 +39,6 @@ def speak(text, wait=False):
     if not config_manager.config['voice-feedback-enabled']:
         return
     player.speed = config_manager.config['voice-feedback-speed']
-    # player.af = f'rubberband=pitch-scale={config_manager.config["voice-pitch"]}'
     try:
         speech = gTTS(text=text, lang='en', slow=False)
         speech.save('misc/last-feedback-speech.mp3')
@@ -63,7 +62,6 @@ def speak(text, wait=False):
 # internal function to create default voice feedbacks
 def _speak_and_save(text, filename):
     player.speed = config_manager.config['voice-feedback-speed']
-    # player.af = f'rubberband=pitch-scale={config_manager.config["voice-pitch"]}'
     try:
         speech = gTTS(text=text, lang='en', slow=False)
         speech.save(filename)
@@ -83,7 +81,6 @@ def give_execution_feedback():
             wroteExecutionSpeech = True
     elif os.path.exists('misc/execution-feedback.mp3'):
         player.speed = config_manager.config['voice-feedback-speed']
-        # player.af = f'rubberband=pitch-scale={config_manager.config["voice-pitch"]}'
         player.play('misc/execution-feedback.mp3')
         player.wait_for_playback()
 
@@ -98,7 +95,6 @@ def give_exiting_feedback():
             wroteExitingSpeech = True
     elif os.path.exists('misc/exiting-feedback.mp3'):
         player.speed = config_manager.config['voice-feedback-speed']
-        # player.af = f'rubberband=pitch-scale={config_manager.config["voice-pitch"]}'
         player.play('misc/exiting-feedback.mp3')
         player.wait_for_playback()
 
@@ -112,7 +108,6 @@ def give_live_mode_feedback():
             wroteLiveModeSpeech = True
     elif os.path.exists('misc/live_mode-feedback.mp3'):
         player.speed = config_manager.config['voice-feedback-speed']
-        # player.af = f'rubberband=pitch-scale={config_manager.config["voice-pitch"]}'
         player.play('misc/live_mode-feedback.mp3')
 
 
@@ -129,7 +124,6 @@ def give_transcription_feedback():
                 wroteTranscriptionSpeech = True
         elif os.path.exists('misc/transcription-feedback.mp3'):
             player.speed = config_manager.config['voice-feedback-speed']
-            # player.af = f'rubberband=pitch-scale={config_manager.config["voice-pitch"]}'
             player.play('misc/transcription-feedback.mp3')
 
 
@@ -150,7 +144,6 @@ def greet():
             speech.save('misc/greeting.mp3')
     else:
         player.speed = config_manager.config['voice-feedback-speed']
-        # player.af = f'rubberband=pitch-scale={config_manager.config["voice-pitch"]}'
         player.play('misc/greeting.mp3')
         player.wait_for_playback()
 
