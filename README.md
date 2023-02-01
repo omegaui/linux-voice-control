@@ -7,7 +7,7 @@
 
 <div align="center"><h3><strong>See it in action</strong></h3></div>
 
-![preview](/images/preview.gif)
+[Latest Preview (No-Audio)](https://user-images.githubusercontent.com/73544069/215714637-5138a941-99e4-4bba-8d90-27cf2da86b71.webm)
 
 <div align="center">
     <img src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/000000/external-lights-lighting-flaticons-flat-flat-icons-6.png">
