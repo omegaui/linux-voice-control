@@ -7,25 +7,7 @@ from chatgpt_wrapper import ChatGPT
 import command_manager
 import voice_feedback
 
-bot = None  # the chatGPT bot object
-try:
-    bot = ChatGPT()
-except Exception as e:
-    print(e)
-
-def _init_bot():
-    """
-    tries to initialize the bot by calling ChatGPT()
-    :return: nothing
-    """
-    global bot
-    if not bot:
-        return
-    try:
-        bot = ChatGPT()
-    except Exception as ex:
-        print(ex)
-
+bot = None  # the ChatGPT bot object
 
 def chat(text):
     """
@@ -35,8 +17,13 @@ def chat(text):
         voice_feedback.speak('deactivating chatgpt mode', wait=True)
         command_manager.chatMode = False
         return
-    _init_bot()
+    global bot
+    if not bot:
+        try:
+            bot = ChatGPT()
+        except Exception as e:
+            print(e)
     print(f"You to ChatGPT: {text}")
-    resonse = bot.ask(text)
-    voice_feedback.speak(resonse, wait=True)
+    response = bot.ask(text)
+    voice_feedback.speak(response, wait=True)
 

@@ -1,5 +1,5 @@
 # under development
-# run this file to setup live mode
+# run this file to set up live mode
 # author: @omegaui
 # github: https://github.com/omegaui/linux-voice-control
 # license: GNU GPL v3
@@ -58,14 +58,14 @@ def listen():
     return dataframes
 
 
-def transcribe(frames):
+def transcribe(audioframes):
     WAVE_OUTPUT_FILENAME = 'training-data/internal-transcription.wav'
-    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-    wf.setnchannels(2)
-    wf.setsampwidth(pyAudio.get_sample_size(pyaudio.paInt16))
-    wf.setframerate(44100)
-    wf.writeframes(b''.join(frames))
-    wf.close()
+    waveWriter = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    waveWriter.setnchannels(2)
+    waveWriter.setsampwidth(pyAudio.get_sample_size(pyaudio.paInt16))
+    waveWriter.setframerate(44100)
+    waveWriter.writeframes(b''.join(audioframes))
+    waveWriter.close()
 
     audio_model = whisper.load_model('base.en')  # loading the audio model from whisper
     result = audio_model.transcribe(WAVE_OUTPUT_FILENAME, fp16=False, language='english')
