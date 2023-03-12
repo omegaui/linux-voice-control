@@ -1,9 +1,6 @@
 
 <div align="center" style="margin: 20px;">
-    <a href="https://codeclimate.com/github/omegaui/chat_desk/maintainability"><img src="https://api.codeclimate.com/v1/badges/22ee0cd01d57542e4f45/maintainability" /></a>
-    <a href="https://github.com/omegaui/chat_desk/actions"><img src="https://github.com/omegaui/chat_desk/actions/workflows/build-for-desktop.yml/badge.svg" /></a>
-    <img src="https://img.shields.io/github/downloads/omegaui/chat_desk/total?style=social" />
-    <img src="https://img.shields.io/github/v/release/omegaui/chat_desk" />
+    <a href="https://codeclimate.com/github/omegaui/linux-voice-control/maintainability"><img src="https://api.codeclimate.com/v1/badges/6619e8fe493be62c377e/maintainability" /></a>
     <img src="https://img.shields.io/github/license/omegaui/chat_desk" />
 </div>
 
