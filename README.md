@@ -245,7 +245,7 @@ Then, everything would work fine.
 ![img.png](images/img.png)
 <div align="center">
     <em>
-        The project is finely tested on <strong>fedora 36 Workstation</strong>
+        The project is finely tested on <strong>fedora 36 Workstation & Ubuntu 22.04</strong>
     </em>
 </div>
 
