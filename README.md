@@ -1,7 +1,8 @@
 
 <div align="center" style="margin: 20px;">
     <a href="https://codeclimate.com/github/omegaui/linux-voice-control/maintainability"><img src="https://api.codeclimate.com/v1/badges/6619e8fe493be62c377e/maintainability" /></a>
-    <img src="https://img.shields.io/github/license/omegaui/chat_desk" />
+    <img src="https://img.shields.io/github/license/omegaui/linux-voice-control" />
+    <a href="https://www.youtube.com/watch?v=oTfOO_Gz1_s"><h3><strong>Watch the CLI version in action on youtube</strong></h3></a>
 </div>
 
 <div align="center">
