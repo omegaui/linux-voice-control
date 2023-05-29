@@ -2,7 +2,8 @@
 
 echo "pip installing requirements.txt ..."
 pip install -r requirements.txt
-playwright install firefox
+pip install playwright
+playwright install
 echo "You need to login into ChatGPT to use chat mode, to do so run <chatgpt install>."
 echo "Settings up Linux-Voice-Control (lvc) ..."
 mkdir ~/lvc-bin

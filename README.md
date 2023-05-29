@@ -202,6 +202,45 @@ pip install -r requirements.txt
 python3 main.py
 ```
 
+If you are unable to build pyaudio,
+see this [post](https://medium.com/@niveditha.itengineer/learn-how-to-setup-portaudio-and-pyaudio-in-ubuntu-to-play-with-speech-recognition-8d2fff660e94).
+
+If you are encountering errors with MPV:
+- this means `libmpv` is not installed on your system, for ubuntu you can do that with **sudo apt-get install libmpv-dev**
+- For other distros, search online for corresponding package.
+
+If you are encountering warnings with ALSA saying **unable to open slave** or **Unknown {device}**:
+- Open up `/usr/share/alsa/alsa.conf`
+- Comment out all the lines with cards.pcm.{device}
+- Also, Comment out all the lines with pcm.surround{X} things.
+Example:
+```shell
+# redirect to load-on-demand extended pcm definitions
+pcm.cards cards.pcm
+
+pcm.default cards.pcm.default
+pcm.sysdefault cards.pcm.default
+pcm.front cards.pcm.front
+# pcm.rear cards.pcm.rear
+# pcm.center_lfe cards.pcm.center_lfe
+# pcm.side cards.pcm.side
+# pcm.surround21 cards.pcm.surround21
+# pcm.surround40 cards.pcm.surround40
+# pcm.surround41 cards.pcm.surround41
+# pcm.surround50 cards.pcm.surround50
+# pcm.surround51 cards.pcm.surround51
+# pcm.surround71 cards.pcm.surround71
+pcm.iec958 cards.pcm.iec958
+pcm.spdif iec958
+pcm.hdmi cards.pcm.hdmi
+pcm.dmix cards.pcm.dmix
+pcm.dsnoop cards.pcm.dsnoop
+pcm.modem cards.pcm.modem
+pcm.phoneline cards.pcm.phoneline
+```
+
+Then, everything would work fine.
+
 # ![](https://img.icons8.com/color/32/000000/approval--v1.png) Ok Tested!
 ![img.png](images/img.png)
 <div align="center">
