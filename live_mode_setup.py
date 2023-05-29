@@ -43,7 +43,7 @@ def listen():
     audio_chunks = array('h')
     cprint("listening ...", "blue", attrs=["bold"])
     for i in range(0, int(44100 / 1024 * 2)):
-        data = stream.read(1024)
+        data = stream.read(1024, exception_on_overflow=False)
         dataframes.append(data)  # stacking every audio frame into the list
         audio_chunks.extend(array('h', data))
     audio_chunks = trim(audio_chunks)

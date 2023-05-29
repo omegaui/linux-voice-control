@@ -118,7 +118,7 @@ def main(model='base', ui='false'):
             chunk_array = array('h')
             log("sleeping ...", "blue", attrs=["bold"])
             for i in range(0, int(44100 / 1024 * 2)):
-                data = stream.read(1024)
+                data = stream.read(1024, exception_on_overflow=False)
                 frames.append(data)  # stacking every audio frame into the list
                 chunk_array.extend(array('h', data))
             chunk_array = trim(chunk_array)
@@ -284,7 +284,7 @@ def listen_again(stream, audio_model, chunk, audio_format, channels, rate, recor
     chunk_array = array('h')
     log("listening ...", "blue", attrs=["bold"])
     for i in range(0, int(rate / chunk * record_seconds)):
-        data = stream.read(chunk)
+        data = stream.read(chunk, exception_on_overflow=False)
         frames.append(data)  # stacking every audio frame into the list
         chunk_array.extend(array('h', data))
     chunk_array = trim(chunk_array)
