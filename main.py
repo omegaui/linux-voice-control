@@ -1,5 +1,5 @@
 # the entry point of this excellent voice control program
-# we are in public preview still.
+# we are still in public preview.
 # author: @omegaui
 # github: https://github.com/omegaui/linux-voice-control
 # license: GNU GPL v3

@@ -2,13 +2,15 @@
 # author: @omegaui
 # github: https://github.com/omegaui/linux-voice-control
 # license: GNU GPL v3
-import chatgpt_wrapper
+import os
+
+import openai
 
 import command_manager
 import voice_feedback
 
 bot = None  # the ChatGPT bot object
-
+openai.api_key = os.environ.get('OPENAI_API_KEY')  #use export OPENAI_API_KEY='key' in terminal or hardcode it here
 
 def chat(text):
     """
@@ -21,10 +23,15 @@ def chat(text):
     global bot
     if not bot:
         try:
-            bot = chatgpt_wrapper.ApiBackend()
-            bot.init_provider()
+            bot = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": text}
+                ]
+            )
         except Exception as e:
             print(e)
     print(f"You to ChatGPT: {text}")
-    response = bot.ask(text)
+    response = bot['choices'][0]['message']['content']
     voice_feedback.speak(response, wait=True)
