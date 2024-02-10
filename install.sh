@@ -32,7 +32,7 @@ cp -r gui/* ~/lvc-bin/gui
 echo "Copying all launchers to /usr/bin (requires root access) ..."
 sudo cp linux-voice-control /usr/bin
 sudo cp linux-voice-control-gui /usr/bin
-sudo chmod 777 /usr/bin/linux-voice-control /usr/bin/linux-voice-control-gui ~/lvc-bin/gui/lvc_gui_flutter
+sudo chmod 0755 /usr/bin/linux-voice-control /usr/bin/linux-voice-control-gui ~/lvc-bin/gui/lvc_gui_flutter
 echo "Copying default commands and config to ~ ..."
 cp lvc-commands.json ~/lvc-bin
 cp lvc-config.json ~/lvc-bin
